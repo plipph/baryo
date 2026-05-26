@@ -1,9 +1,10 @@
+
 import { Metadata } from "next";
 
 import { createClient } from "@/lib/supabase/server";
 
 import { notFound } from "next/navigation";
-
+import { logBusinessVisit } from "@/lib/analytics/log-visit";
 import { LinkIcon } from "@/components/link-icon";
 
 import { PublicStorefront } from "./public-storefront";
@@ -19,6 +20,11 @@ type PublicBusinessPageProps = {
     slug: string;
   }>;
 };
+
+
+export const dynamic =
+  "force-dynamic";
+
 
 export async function generateMetadata({
   params,
@@ -101,6 +107,7 @@ export default async function PublicBusinessPage({
   if (!business) {
     notFound();
   }
+  await logBusinessVisit( business.id );
 
   /* CATEGORIES */
 
