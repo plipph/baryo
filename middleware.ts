@@ -1,13 +1,14 @@
-import { type NextRequest, NextResponse } from "next/server";
 
-// Fallback local implementation of updateSession to avoid missing module error.
-// This keeps middleware behavior minimal: it simply continues the request.
-async function updateSession(request: NextRequest) {
-  return NextResponse.next();
-}
+import { type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+import { updateSession } from "@/lib/supabase/middleware";
+
+export async function middleware(
+  request: NextRequest
+) {
+  return await updateSession(
+    request
+  );
 }
 
 export const config = {
