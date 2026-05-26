@@ -1,5 +1,10 @@
 import { redirect } from "next/navigation";
+
 import { createClient } from "@/lib/supabase/server";
+
+import { adminSupabase } from "@/lib/supabase/admin";
+
+
 
 import { toggleBusinessStatus } from "./actions/business-actions";
 
@@ -73,7 +78,7 @@ export default async function AdminDashboardPage() {
     BUSINESSES
   */
 
- const { data: businesses } = await supabase .from("businesses") .select("*") .order("created_at", { ascending: false, }) .limit(20);
+ const { data: businesses } = await adminSupabase .from("businesses") .select("*") .order("created_at", { ascending: false, }) .limit(20);
   return (
     <main className="min-h-screen bg-[#F7F1E8] px-6 py-8">
       <div className="mx-auto max-w-7xl">
