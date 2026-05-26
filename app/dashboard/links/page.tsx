@@ -2,7 +2,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-import BusinessLink from "./links-manager";
+import { LinksManager } from "./links-manager";
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { DashboardCard } from "@/components/dashboard/dashboard-card";
@@ -42,7 +42,7 @@ export default async function LinksPage() {
 
   return (
     <main className="min-h-screen">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-6xl">
         <DashboardHeader
           eyebrow="Links"
           title="Social & Contact Links"
@@ -50,7 +50,7 @@ export default async function LinksPage() {
         />
 
         <DashboardCard>
-          <BusinessLink
+          <LinksManager
             businessId={business.id}
             businessPlan={business.plan_id}
             initialLinks={links || []}
