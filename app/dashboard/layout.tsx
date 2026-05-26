@@ -1,20 +1,33 @@
+import { ReactNode } from "react";
+import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 
 
 import { DashboardSidebar } from "./components/dashboard-sidebar";
 
 
+type DashboardLayoutProps = {
+  children: ReactNode;
+};
+
 export default function DashboardLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
+}: DashboardLayoutProps) {
+ 
+return (
+  <DashboardShell>
     <div className="flex min-h-screen">
-      <DashboardSidebar />
+      {/* Desktop Sidebar Only */}
+      <div className="hidden lg:block">
+        <DashboardSidebar />
+      </div>
 
-      <div className="flex-1">
+      {/* Main Content */}
+      <div className="min-w-0 flex-1">
         {children}
       </div>
     </div>
-  );
+  </DashboardShell>
+);
 }
+
+
