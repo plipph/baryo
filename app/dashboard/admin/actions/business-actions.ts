@@ -58,14 +58,15 @@ export async function toggleBusinessStatus(
     UPDATE
   */
 
-  const { error } =
-    await supabase
-      .from("businesses")
-      .update({
-        is_active:
-          !currentStatus,
-      })
-      .eq("id", businessId);
+
+const { error } =
+  await supabase
+    .from("businesses")
+    .update({
+      is_active:
+        !currentStatus,
+    })
+    .eq("id", businessId);
 
   if (error) {
     console.error(error);
