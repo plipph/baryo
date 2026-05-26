@@ -73,20 +73,7 @@ export default async function AdminDashboardPage() {
     BUSINESSES
   */
 
-  const {
-    data: businesses,
-  } = await supabase
-    .from("businesses")
-    .select(`
-      *,
-      profiles (
-        email
-      )
-    `)
-    .order("created_at", {
-      ascending: false,
-    })
-    .limit(20);
+  const { data: businesses, } = await supabase .from("businesses") .select("*") .order("created_at", { ascending: false, }) .limit(20);
 
   return (
     <main className="min-h-screen bg-[#F7F1E8] px-6 py-8">
@@ -192,10 +179,7 @@ export default async function AdminDashboardPage() {
 
                       {/* OWNER */}
                       <td className="px-4 py-4 text-sm text-stone-600">
-                        {business
-                          .profiles
-                          ?.email ||
-                          "No email"}
+                       {business.owner_id}
                       </td>
 
                       {/* SLUG */}
