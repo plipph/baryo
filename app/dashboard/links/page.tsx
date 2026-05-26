@@ -50,7 +50,7 @@ export default async function LinksPage() {
         />
 
         <DashboardCard>
-          <LinksManager
+          <BusinessLink
             businessId={business.id}
             businessPlan={business.plan_id}
             initialLinks={links || []}
