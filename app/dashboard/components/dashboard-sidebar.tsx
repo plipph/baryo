@@ -10,6 +10,7 @@ import {
   Link2,
   Palette,
   Settings,
+  ChartBar,
 } from "lucide-react";
 
 const navigation = [
@@ -43,6 +44,14 @@ const navigation = [
     href: "/dashboard/appearance",
     icon: Palette,
   },
+
+{
+  label: "Analytics",
+  href: "/dashboard/analytics",
+  icon: ChartBar,
+},
+
+
   {
     label: "Settings",
     href: "/dashboard/settings",
