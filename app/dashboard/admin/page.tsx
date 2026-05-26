@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-
+import { BusinessStatusButton } from "./business-status-button";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminDashboardPage() {
@@ -244,17 +244,7 @@ export default async function AdminDashboardPage() {
                             Open
                           </a>
 
-                          <button
-                            className={`rounded-xl px-3 py-2 text-sm font-semibold text-white ${
-                              business.is_active
-                                ? "bg-red-500 hover:bg-red-600"
-                                : "bg-[#596B3F] hover:bg-[#45532F]"
-                            }`}
-                          >
-                            {business.is_active
-                              ? "Disable"
-                              : "Enable"}
-                          </button>
+                          <BusinessStatusButton businessId={ business.id } isActive={ business.is_active } />
                         </div>
                       </td>
                     </tr>
