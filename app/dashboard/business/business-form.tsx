@@ -90,7 +90,7 @@ const [uploadingCover, setUploadingCover] = useState(false);
 
     const publicUrl = await uploadImage({
       supabase,
-      bucket: "business-images",
+      bucket: "business-logos",
       file,
       folder: `${userId}/logos`,
     });
@@ -112,7 +112,7 @@ async function handleCoverUpload(file: File | null) {
 
     const publicUrl = await uploadImage({
       supabase,
-      bucket: "business-images",
+      bucket: "business-covers",
       file,
       folder: `${userId}/covers`,
     });
