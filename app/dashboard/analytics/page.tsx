@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 
+import { AnalyticsChart } from "./analytics-chart";
+
+
 export default async function AnalyticsPage() {
   const supabase =
     await createClient();
@@ -111,6 +114,67 @@ export default async function AnalyticsPage() {
       sevenDaysAgo.toISOString()
     );
 
+const chartData = [];
+
+for (let i = 6; i >= 0; i--) {
+  const start = new Date();
+
+  start.setDate(
+    start.getDate() - i
+  );
+
+  start.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  const end = new Date(start);
+
+  end.setHours(
+    23,
+    59,
+    59,
+    999
+  );
+
+  const { count } =
+    await supabase
+      .from(
+        "business_analytics"
+      )
+      .select("*", {
+        count: "exact",
+        head: true,
+      })
+      .eq(
+        "business_id",
+        business.id
+      )
+      .gte(
+        "visited_at",
+        start.toISOString()
+      )
+      .lte(
+        "visited_at",
+        end.toISOString()
+      );
+
+  chartData.push({
+    date:
+      start.toLocaleDateString(
+        "en-US",
+        {
+          weekday: "short",
+        }
+      ),
+    visits: count || 0,
+  });
+}
+
+
+
   return (
     <main className="min-h-screen bg-[#F7F1E8] px-6 py-8">
       <div className="mx-auto max-w-6xl">
@@ -154,6 +218,15 @@ export default async function AnalyticsPage() {
             }
           />
         </div>
+
+    
+<div className="mt-8">
+  <AnalyticsChart
+    data={chartData}
+  />
+</div>
+
+
 
         {/* EMPTY STATE */}
         {(totalVisits || 0) ===
