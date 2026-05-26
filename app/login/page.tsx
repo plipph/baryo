@@ -1,42 +1,86 @@
 "use client";
 
-import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
+
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+
+import {
+  FormEvent,
+  useState,
+} from "react";
+
+import { createClient } from "@supabase/supabase-js";
 
 export default function LoginPage() {
   const router = useRouter();
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
-  );
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const supabase =
+    createClient(
+      process.env
+        .NEXT_PUBLIC_SUPABASE_URL || "",
+      process.env
+        .NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+    );
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [email, setEmail] =
+    useState("");
 
-  async function handleLogin(event: FormEvent<HTMLFormElement>) {
+  const [
+    password,
+    setPassword,
+  ] = useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [message, setMessage] =
+    useState("");
+
+  async function handleLogin(
+    event: FormEvent<HTMLFormElement>
+  ) {
     event.preventDefault();
+
     setLoading(true);
+
     setMessage("");
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { error } =
+      await supabase.auth.signInWithPassword(
+        {
+          email,
+          password,
+        }
+      );
 
     if (error) {
-      setMessage("Invalid email or password.");
+      setMessage(
+        "Invalid email or password."
+      );
+
       setLoading(false);
+
       return;
     }
 
-    setLoading(false);
+    /*
+      IMPORTANT:
+      refresh auth state first
+    */
+
+    await supabase.auth.getSession();
+
+    /*
+      IMPORTANT:
+      use router push
+      NOT redirect()
+    */
+
     router.push("/dashboard");
+
     router.refresh();
+
+    setLoading(false);
   }
 
   return (
@@ -46,17 +90,31 @@ export default function LoginPage() {
           <h1 className="text-3xl font-bold text-[#3D2A1E]">
             Welcome back
           </h1>
+
           <p className="mt-2 text-sm text-stone-600">
-            Login to manage your business page.
+            Login to manage your
+            business page.
           </p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form
+          onSubmit={
+            handleLogin
+          }
+          className="space-y-4"
+        >
           <div>
-            <label className="text-sm font-medium text-stone-700">Email</label>
+            <label className="text-sm font-medium text-stone-700">
+              Email
+            </label>
+
             <input
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setEmail(
+                  e.target.value
+                )
+              }
               required
               type="email"
               className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
@@ -68,9 +126,14 @@ export default function LoginPage() {
             <label className="text-sm font-medium text-stone-700">
               Password
             </label>
+
             <input
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) =>
+                setPassword(
+                  e.target.value
+                )
+              }
               required
               type="password"
               className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
@@ -88,13 +151,18 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full rounded-xl bg-[#596B3F] px-4 py-3 font-semibold text-white hover:bg-[#45532F] disabled:opacity-60"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading
+              ? "Logging in..."
+              : "Login"}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-stone-600">
           No account yet?{" "}
-          <Link href="/register" className="font-semibold text-[#C85A32]">
+          <Link
+            href="/register"
+            className="font-semibold text-[#C85A32]"
+          >
             Create one
           </Link>
         </p>
