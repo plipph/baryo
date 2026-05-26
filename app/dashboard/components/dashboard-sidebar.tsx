@@ -63,7 +63,7 @@ export function DashboardSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden w-72 shrink-0 border-r border-[#E7D8C5] bg-[#FFFDF9] lg:flex lg:flex-col">
+    <aside className="hidden h-screen w-72 shrink-0 border-r border-[#E7D8C5] bg-[#FFFDF9] lg:flex lg:flex-col">
       <div className="border-b border-[#E7D8C5] px-6 py-6">
         <Link href="/dashboard">
           <div>
@@ -82,7 +82,7 @@ export function DashboardSidebar() {
         </Link>
       </div>
 
-      <nav className="flex-1 space-y-1 p-4">
+      <nav className="flex-1 space-y-1 overflow-y-auto p-4">
         {navigation.map((item) => {
           const Icon = item.icon;
 
