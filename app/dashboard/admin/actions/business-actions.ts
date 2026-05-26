@@ -5,14 +5,23 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 export async function toggleBusinessStatus(
-  businessId: string,
-  currentStatus: boolean
+  formData: FormData
 ) {
   const supabase =
     await createClient();
 
+  const businessId =
+    formData.get(
+      "businessId"
+    ) as string;
+
+  const currentStatus =
+    formData.get(
+      "currentStatus"
+    ) === "true";
+
   /*
-    AUTH CHECK
+    AUTH
   */
 
   const {
@@ -26,7 +35,7 @@ export async function toggleBusinessStatus(
   }
 
   /*
-    TEMP ADMIN CHECK
+    ADMIN CHECK
   */
 
   const adminEmails = [
@@ -46,7 +55,7 @@ export async function toggleBusinessStatus(
   }
 
   /*
-    UPDATE STORE STATUS
+    UPDATE
   */
 
   const { error } =
@@ -67,8 +76,7 @@ export async function toggleBusinessStatus(
   }
 
   /*
-    IMPORTANT:
-    refresh pages
+    REFRESH
   */
 
   revalidatePath(
@@ -77,8 +85,6 @@ export async function toggleBusinessStatus(
 
   revalidatePath("/");
 
-  return {
-    success: true,
-  };
+  return;
 }
 

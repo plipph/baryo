@@ -231,29 +231,7 @@ export default async function AdminDashboardPage() {
                           </a>
 
                   
-<form
-  action={async () => {
-    "use server";
-
-    await toggleBusinessStatus(
-      business.id,
-      business.is_active
-    );
-  }}
->
-  <button
-    type="submit"
-    className={`rounded-xl px-3 py-2 text-sm font-semibold text-white ${
-      business.is_active
-        ? "bg-red-500 hover:bg-red-600"
-        : "bg-[#596B3F] hover:bg-[#45532F]"
-    }`}
-  >
-    {business.is_active
-      ? "Disable"
-      : "Enable"}
-  </button>
-</form>
+<form action={toggleBusinessStatus}> <input type="hidden" name="businessId" value={business.id} /> <input type="hidden" name="currentStatus" value={ business.is_active ? "true" : "false" } /> <button type="submit" className={`rounded-xl px-3 py-2 text-sm font-semibold text-white ${ business.is_active ? "bg-red-500 hover:bg-red-600" : "bg-[#596B3F] hover:bg-[#45532F]" }`} > {business.is_active ? "Disable" : "Enable"} </button> </form>
 
                         </div>
                       </td>
