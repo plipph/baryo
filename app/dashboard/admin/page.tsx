@@ -27,6 +27,10 @@ export default async function AdminDashboardPage() {
     redirect("/dashboard");
   }
 
+  /*
+    METRICS
+  */
+
   const {
     count: totalBusinesses,
   } = await supabase
@@ -63,15 +67,24 @@ export default async function AdminDashboardPage() {
       head: true,
     });
 
+  /*
+    BUSINESSES
+  */
+
   const {
     data: businesses,
   } = await supabase
     .from("businesses")
-    .select("*")
+    .select(`
+      *,
+      profiles (
+        email
+      )
+    `)
     .order("created_at", {
       ascending: false,
     })
-    .limit(10);
+    .limit(20);
 
   return (
     <main className="min-h-screen bg-[#F7F1E8] px-6 py-8">
@@ -87,9 +100,10 @@ export default async function AdminDashboardPage() {
           </h1>
 
           <p className="mt-3 text-stone-600">
-            Monitor businesses,
-            users, and platform
-            growth.
+            Manage storefronts,
+            monitor growth, and
+            oversee platform
+            activity.
           </p>
         </div>
 
@@ -124,20 +138,37 @@ export default async function AdminDashboardPage() {
           />
         </div>
 
-        {/* RECENT BUSINESSES */}
+        {/* BUSINESSES */}
         <section className="mt-8 rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-black tracking-tight text-[#3D2A1E]">
-            Recent Businesses
-          </h2>
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h2 className="text-2xl font-black tracking-tight text-[#3D2A1E]">
+                Businesses
+              </h2>
+
+              <p className="mt-2 text-stone-600">
+                Manage storefronts
+                and platform users.
+              </p>
+            </div>
+
+            <div className="rounded-full bg-[#F1E5D4] px-4 py-2 text-sm font-semibold text-[#5A3825]">
+              {businesses?.length || 0}{" "}
+              stores loaded
+            </div>
+          </div>
 
           <div className="mt-6 overflow-x-auto">
-            <table className="w-full min-w-[700px] border-separate border-spacing-y-3">
+            <table className="w-full min-w-[1100px] border-separate border-spacing-y-3">
               <thead>
                 <tr className="text-left text-sm uppercase tracking-[0.2em] text-stone-500">
                   <th>Name</th>
+                  <th>Owner</th>
                   <th>Slug</th>
                   <th>Plan</th>
+                  <th>Status</th>
                   <th>Created</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
 
@@ -150,12 +181,22 @@ export default async function AdminDashboardPage() {
                       }
                       className="bg-[#FFF8EF]"
                     >
+                      {/* NAME */}
                       <td className="rounded-l-2xl px-4 py-4 font-semibold text-[#3D2A1E]">
                         {
                           business.name
                         }
                       </td>
 
+                      {/* OWNER */}
+                      <td className="px-4 py-4 text-sm text-stone-600">
+                        {business
+                          .profiles
+                          ?.email ||
+                          "No email"}
+                      </td>
+
+                      {/* SLUG */}
                       <td className="px-4 py-4 text-stone-600">
                         /
                         {
@@ -163,6 +204,7 @@ export default async function AdminDashboardPage() {
                         }
                       </td>
 
+                      {/* PLAN */}
                       <td className="px-4 py-4">
                         <span className="rounded-full bg-white px-3 py-1 text-sm text-stone-700">
                           {
@@ -171,10 +213,49 @@ export default async function AdminDashboardPage() {
                         </span>
                       </td>
 
-                      <td className="rounded-r-2xl px-4 py-4 text-stone-500">
+                      {/* STATUS */}
+                      <td className="px-4 py-4">
+                        {business.is_active ? (
+                          <span className="rounded-full bg-[#EEF6E9] px-3 py-1 text-sm font-semibold text-[#3D6B35]">
+                            Active
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-700">
+                            Disabled
+                          </span>
+                        )}
+                      </td>
+
+                      {/* CREATED */}
+                      <td className="px-4 py-4 text-stone-500">
                         {new Date(
                           business.created_at
                         ).toLocaleDateString()}
+                      </td>
+
+                      {/* ACTIONS */}
+                      <td className="rounded-r-2xl px-4 py-4">
+                        <div className="flex flex-wrap gap-2">
+                          <a
+                            href={`/${business.slug}`}
+                            target="_blank"
+                            className="rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-100"
+                          >
+                            Open
+                          </a>
+
+                          <button
+                            className={`rounded-xl px-3 py-2 text-sm font-semibold text-white ${
+                              business.is_active
+                                ? "bg-red-500 hover:bg-red-600"
+                                : "bg-[#596B3F] hover:bg-[#45532F]"
+                            }`}
+                          >
+                            {business.is_active
+                              ? "Disable"
+                              : "Enable"}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   )
