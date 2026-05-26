@@ -12,6 +12,7 @@ const navigation = [
   { label: "Items", href: "/dashboard/items" },
   { label: "Links", href: "/dashboard/links" },
   { label: "Appearance", href: "/dashboard/appearance" },
+  { label: "Analytics", href: "/dashboard/analytics" },
   { label: "Settings", href: "/dashboard/settings" },
 ];
 
