@@ -1,8 +1,10 @@
+
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
+
 import { createClient } from "@/lib/supabase/client";
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 
 type Category = {
   id: string;
@@ -21,256 +23,363 @@ export function CategoriesManager({
   businessId,
   initialCategories,
 }: CategoriesManagerProps) {
-  const router = useRouter();
   const supabase = createClient();
 
-  const [name, setName] = useState("");
-  const [sortOrder, setSortOrder] = useState(0);
-  const [message, setMessage] = useState("");
-  const [editingCategoryId, setEditingCategoryId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState("");
-  const [savingEdit, setSavingEdit] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] =
+    useState(initialCategories);
 
-  async function handleCreate(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setMessage("");
-    setLoading(true);
+  const [name, setName] =
+    useState("");
 
-    if (!name.trim()) {
-      setMessage("Category name is required.");
-      setLoading(false);
-      return;
-    }
+  const [
+    editingCategoryId,
+    setEditingCategoryId,
+  ] = useState<string | null>(
+    null
+  );
 
-    const { error } = await supabase.from("categories").insert({
-      business_id: businessId,
-      name: name.trim(),
-      sort_order: sortOrder,
-      is_visible: true,
-    });
+  const [editingName, setEditingName] =
+    useState("");
+
+  async function createCategory(
+    e: React.FormEvent
+  ) {
+    e.preventDefault();
+
+    if (!name.trim()) return;
+
+    const { data, error } =
+      await supabase
+        .from("categories")
+        .insert({
+          business_id:
+            businessId,
+          name,
+        })
+        .select()
+        .single();
 
     if (error) {
-      setMessage(error.message);
-      setLoading(false);
+      console.error(error);
       return;
     }
+
+    setCategories([
+      ...categories,
+      data,
+    ]);
 
     setName("");
-    setSortOrder(0);
-    setLoading(false);
-    router.refresh();
   }
 
-  async function toggleVisibility(category: Category) {
-    const { error } = await supabase
-      .from("categories")
-      .update({ is_visible: !category.is_visible })
-      .eq("id", category.id);
-
-    if (error) {
-      setMessage(error.message);
-      return;
-    }
-
-    router.refresh();
-  }
-
-  async function deleteCategory(categoryId: string) {
-    const confirmed = window.confirm(
-      "Delete this category? Items under this category will become uncategorized."
-    );
+  async function deleteCategory(
+    id: string
+  ) {
+    const confirmed =
+      window.confirm(
+        "Delete this category?"
+      );
 
     if (!confirmed) return;
 
-    const { error } = await supabase
-      .from("categories")
-      .delete()
-      .eq("id", categoryId);
+    const { error } =
+      await supabase
+        .from("categories")
+        .delete()
+        .eq("id", id);
 
     if (error) {
-      setMessage(error.message);
+      console.error(error);
       return;
     }
 
-    router.refresh();
+    setCategories(
+      categories.filter(
+        (category) =>
+          category.id !== id
+      )
+    );
   }
 
-  function startEdit(categoryId: string, currentName: string) {
-  setEditingCategoryId(categoryId);
-  setEditingName(currentName);
-  setMessage("");
-}
-
-function cancelEdit() {
-  setEditingCategoryId(null);
-  setEditingName("");
-}
-
-async function saveEdit() {
-  if (!editingCategoryId) return;
-
-  if (!editingName.trim()) {
-    setMessage("Category name is required.");
-    return;
-  }
-
-  try {
-    setSavingEdit(true);
-    setMessage("");
-
-    const { error } = await supabase
-      .from("categories")
-      .update({
-        name: editingName.trim(),
-      })
-      .eq("id", editingCategoryId);
+  async function toggleVisibility(
+    category: Category
+  ) {
+    const { data, error } =
+      await supabase
+        .from("categories")
+        .update({
+          is_visible:
+            !category.is_visible,
+        })
+        .eq("id", category.id)
+        .select()
+        .single();
 
     if (error) {
-      setMessage(error.message);
+      console.error(error);
       return;
     }
+
+    setCategories(
+      categories.map((item) =>
+        item.id === category.id
+          ? data
+          : item
+      )
+    );
+  }
+
+  function startEdit(
+    id: string,
+    currentName: string
+  ) {
+    setEditingCategoryId(id);
+
+    setEditingName(currentName);
+  }
+
+  function cancelEdit() {
+    setEditingCategoryId(null);
+
+    setEditingName("");
+  }
+
+  async function saveEdit() {
+    if (
+      !editingCategoryId ||
+      !editingName.trim()
+    )
+      return;
+
+    const { data, error } =
+      await supabase
+        .from("categories")
+        .update({
+          name: editingName,
+        })
+        .eq(
+          "id",
+          editingCategoryId
+        )
+        .select()
+        .single();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setCategories(
+      categories.map((item) =>
+        item.id ===
+        editingCategoryId
+          ? data
+          : item
+      )
+    );
 
     cancelEdit();
-    router.refresh();
-  } finally {
-    setSavingEdit(false);
   }
-}
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_1.5fr]">
-      <form
-        onSubmit={handleCreate}
-        className="rounded-3xl border border-[#E2D4C2] bg-white/80 p-6 shadow-sm"
-      >
-        <h2 className="text-xl font-bold text-[#3D2A1E]">Add Category</h2>
-        <p className="mt-2 text-sm text-stone-600">
-          Examples: Food, Drinks, Rooms, Services, Packages.
-        </p>
-
-        <div className="mt-5 space-y-4">
-          <div>
-            <label className="text-sm font-medium text-stone-700">
-              Category name
-            </label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
-              placeholder="Pinoy Favorites"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-stone-700">
-              Sort order
-            </label>
-            <input
-              value={sortOrder}
-              onChange={(e) => setSortOrder(Number(e.target.value))}
-              type="number"
-              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
-            />
-          </div>
-
-          {message && (
-            <p className="rounded-xl bg-[#F1E5D4] px-4 py-3 text-sm text-[#5A3825]">
-              {message}
-            </p>
-          )}
-
-          <button
-            disabled={loading}
-            className="w-full rounded-2xl bg-[#C85A32] px-5 py-3 font-semibold text-white hover:bg-[#A94727] disabled:opacity-60"
-          >
-            {loading ? "Adding..." : "Add Category"}
-          </button>
-        </div>
-      </form>
-
-      <section className="rounded-3xl border border-[#E2D4C2] bg-white/80 p-6 shadow-sm">
-        <h2 className="text-xl font-bold text-[#3D2A1E]">
-          Current Categories
+    <section className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
+      {/* HEADER */}
+      <div className="mb-6">
+        <h2 className="text-3xl font-black tracking-tight text-[#3D2A1E]">
+          Categories
         </h2>
 
-        <div className="mt-5 space-y-3">
-          {initialCategories.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-stone-300 bg-[#FFF8EF] p-6 text-center text-stone-600">
-              No categories yet. Add your first category.
+        <p className="mt-2 text-stone-600">
+          Organize your products
+          and services into clear
+          sections.
+        </p>
+      </div>
+
+      {/* CREATE FORM */}
+      <form
+        onSubmit={
+          createCategory
+        }
+        className="flex flex-col gap-3 rounded-[2rem] border border-[#E7D8C5] bg-[#FFF8EF] p-5 md:flex-row"
+      >
+        <input
+          type="text"
+          placeholder="Category name"
+          value={name}
+          onChange={(e) =>
+            setName(
+              e.target.value
+            )
+          }
+          className="flex-1 rounded-2xl border border-[#D8C6B3] bg-white px-4 py-4 outline-none focus:border-[#C85A32]"
+        />
+
+        <button
+          type="submit"
+          className="rounded-2xl bg-[#C85A32] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+        >
+          Add Category
+        </button>
+      </form>
+
+      {/* LIST */}
+      <div className="mt-6 space-y-4">
+        {categories.length ===
+        0 ? (
+          <div className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-[#D8C6B3] bg-[#FFF8EF] px-8 py-20 text-center">
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-sm">
+              🗂️
             </div>
-          ) : (
-            initialCategories.map((category) => (
-              <div
-                key={category.id}
-                className="flex items-center justify-between rounded-2xl border border-[#E7D8C5] bg-[#FFF8EF] p-4"
+
+            <h3 className="mt-6 text-3xl font-black tracking-tight text-[#3D2A1E]">
+              No categories yet
+            </h3>
+
+            <p className="mt-4 max-w-md text-base leading-relaxed text-stone-600">
+              Organize your
+              products or services
+              into categories like
+              Coffee, Meals,
+              Packages, Services,
+              or Desserts.
+            </p>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <button
+                type="button"
+                className="rounded-2xl bg-[#C85A32] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
               >
+                Create Category
+              </button>
+
+              <Link
+                href="/dashboard/items"
+                className="rounded-2xl border border-[#D8C6B3] bg-white px-6 py-4 font-semibold text-[#3D2A1E] transition hover:bg-[#F8F4EC]"
+              >
+                Manage Items
+              </Link>
+            </div>
+          </div>
+        ) : (
+          categories.map(
+            (category) => (
+              <div
+                key={
+                  category.id
+                }
+                className="flex flex-col gap-4 rounded-[2rem] border border-[#E7D8C5] bg-[#FFF8EF] p-5 md:flex-row md:items-center md:justify-between"
+              >
+                {/* LEFT */}
                 <div>
-                {editingCategoryId === category.id ? (
-  <div className="flex flex-col gap-3">
-    <input
-      value={editingName}
-      onChange={(e) => setEditingName(e.target.value)}
-      className="rounded-xl border border-stone-300 px-4 py-2 outline-none focus:border-[#C85A32]"
-    />
+                  {editingCategoryId ===
+                  category.id ? (
+                    <div className="flex flex-col gap-3">
+                      <input
+                        value={
+                          editingName
+                        }
+                        onChange={(
+                          e
+                        ) =>
+                          setEditingName(
+                            e.target
+                              .value
+                          )
+                        }
+                        className="rounded-2xl border border-[#D8C6B3] bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
+                      />
 
-    <div className="flex gap-2">
-      <button
-        type="button"
-        onClick={saveEdit}
-        className="rounded-xl bg-[#596B3F] px-4 py-2 text-sm font-semibold text-white hover:bg-[#45532F]"
-      >
-        Save
-      </button>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={
+                            saveEdit
+                          }
+                          className="rounded-xl bg-[#596B3F] px-4 py-2 text-sm font-semibold text-white hover:bg-[#45532F]"
+                        >
+                          Save
+                        </button>
 
-      <button
-        type="button"
-        onClick={cancelEdit}
-        className="rounded-xl border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-100"
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-) : (
-  <h3 className="font-semibold">{category.name}</h3>
-)}
-                  <p className="text-sm text-stone-500">
-                    Sort order: {category.sort_order} ·{" "}
-                    {category.is_visible ? "Visible" : "Hidden"}
-                  </p>
+                        <button
+                          type="button"
+                          onClick={
+                            cancelEdit
+                          }
+                          className="rounded-xl border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-100"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <h3 className="text-xl font-black tracking-tight text-[#3D2A1E]">
+                        {
+                          category.name
+                        }
+                      </h3>
+
+                      <p className="mt-2 text-sm text-stone-500">
+                        Sort order:{" "}
+                        {
+                          category.sort_order
+                        }{" "}
+                        ·{" "}
+                        {category.is_visible
+                          ? "Visible"
+                          : "Hidden"}
+                      </p>
+                    </>
+                  )}
                 </div>
 
-                <div className="flex gap-2">
+                {/* ACTIONS */}
+                <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
-                    onClick={() => toggleVisibility(category)}
-                    className="rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 hover:bg-stone-100"
+                    onClick={() =>
+                      toggleVisibility(
+                        category
+                      )
+                    }
+                    className="rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-700 hover:bg-stone-100"
                   >
-                    {category.is_visible ? "Hide" : "Show"}
+                    {category.is_visible
+                      ? "Hide"
+                      : "Show"}
                   </button>
 
                   <button
                     type="button"
-                      onClick={() => startEdit(category.id, category.name)}
-                        className="rounded-xl border border-stone-300 bg-white px-3 py-2 text-sm text-stone-700 hover:bg-stone-100"
-                          >
-                            Edit
-                              </button>
+                    onClick={() =>
+                      startEdit(
+                        category.id,
+                        category.name
+                      )
+                    }
+                    className="rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-700 hover:bg-stone-100"
+                  >
+                    Edit
+                  </button>
 
                   <button
                     type="button"
-                    onClick={() => deleteCategory(category.id)}
-                    className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 hover:bg-red-100"
+                    onClick={() =>
+                      deleteCategory(
+                        category.id
+                      )
+                    }
+                    className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 hover:bg-red-100"
                   >
                     Delete
                   </button>
                 </div>
               </div>
-            ))
-          )}
-        </div>
-      </section>
-    </div>
+            )
+          )
+        )}
+      </div>
+    </section>
   );
 }
