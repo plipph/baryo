@@ -293,7 +293,7 @@ export default async function PublicBusinessPage({
                     {primaryLinks.map((link) => (
                       <a
                         key={link.id}
-                        href={link.url}
+                       href={`/api/track-link?businessId=${business.id}&linkId=${link.id}&target=${encodeURIComponent(link.url)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`inline-flex w-full items-center justify-center gap-2 px-5 py-3 text-sm font-bold text-white shadow-xl transition-opacity hover:opacity-90 sm:w-auto ${buttonRadiusClass}`}
