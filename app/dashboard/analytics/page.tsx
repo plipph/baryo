@@ -174,6 +174,57 @@ for (let i = 6; i >= 0; i--) {
 }
 
 
+const { data: topLinks } =
+  await supabase
+    .from("link_clicks")
+    .select(`
+      link_id,
+      business_links (
+        id,
+        label,
+        type
+      )
+    `)
+    .eq(
+      "business_id",
+      business.id
+    );
+
+const groupedLinks =
+  Object.values(
+    (topLinks || []).reduce(
+      (acc: any, click: any) => {
+        const link =
+          click.business_links;
+
+        if (!link) {
+          return acc;
+        }
+
+        if (!acc[link.id]) {
+          acc[link.id] = {
+            id: link.id,
+            label:
+              link.label,
+            type: link.type,
+            clicks: 0,
+          };
+        }
+
+        acc[link.id].clicks += 1;
+
+        return acc;
+      },
+      {}
+    )
+  )
+    .sort(
+      (a: any, b: any) =>
+        b.clicks - a.clicks
+    )
+    .slice(0, 5);
+
+
 
   return (
     <main className="min-h-screen bg-[#F7F1E8] px-6 py-8">
@@ -225,6 +276,60 @@ for (let i = 6; i >= 0; i--) {
     data={chartData}
   />
 </div>
+
+
+<div className="mt-8 rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
+  <div className="mb-6">
+    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+      Engagement
+    </p>
+
+    <h2 className="mt-2 text-2xl font-black text-[#3D2A1E]">
+      Top Links
+    </h2>
+  </div>
+
+  <div className="space-y-4">
+    {groupedLinks.length ===
+    0 ? (
+      <p className="text-sm text-stone-500">
+        No link clicks yet.
+      </p>
+    ) : (
+      groupedLinks.map(
+        (link: any) => (
+          <div
+            key={link.id}
+            className="flex items-center justify-between rounded-2xl border border-[#EFE3D3] bg-[#FFFDF9] px-4 py-4"
+          >
+            <div>
+              <p className="font-bold text-[#3D2A1E]">
+                {link.label}
+              </p>
+
+              <p className="text-sm capitalize text-stone-500">
+                {link.type}
+              </p>
+            </div>
+
+            <div className="text-right">
+              <p className="text-2xl font-black text-[#596B3F]">
+                {
+                  link.clicks
+                }
+              </p>
+
+              <p className="text-xs uppercase tracking-[0.15em] text-stone-500">
+                Clicks
+              </p>
+            </div>
+          </div>
+        )
+      )
+    )}
+  </div>
+</div>
+
 
 
 
