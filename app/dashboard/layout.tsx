@@ -1,17 +1,20 @@
-import { ReactNode } from "react";
-import { DashboardShell } from "@/components/dashboard/dashboard-shell";
 
-type DashboardLayoutProps = {
-  children: ReactNode;
-};
+
+import { DashboardSidebar } from "./components/dashboard-sidebar";
+
 
 export default function DashboardLayout({
   children,
-}: DashboardLayoutProps) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <DashboardShell>
-      {children}
-    </DashboardShell>
+    <div className="flex min-h-screen">
+      <DashboardSidebar />
+
+      <div className="flex-1">
+        {children}
+      </div>
+    </div>
   );
 }
-
