@@ -40,16 +40,17 @@ const navigation = [
     icon: Link2,
   },
   {
+  label: "Analytics",
+  href: "/dashboard/analytics",
+  icon: ChartBar,
+},
+  {
     label: "Appearance",
     href: "/dashboard/appearance",
     icon: Palette,
   },
 
-{
-  label: "Analytics",
-  href: "/dashboard/analytics",
-  icon: ChartBar,
-},
+
 
 
   {
