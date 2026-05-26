@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { createClient } from "@/lib/supabase/server";
+import { error } from "console";
 
 export async function toggleBusinessStatus(
   formData: FormData
@@ -59,14 +60,19 @@ export async function toggleBusinessStatus(
   */
 
 
+
 const { error } =
-  await supabase
-    .from("businesses")
-    .update({
-      is_active:
+  await supabase.rpc(
+    "toggle_business_status",
+    {
+      target_business_id:
+        businessId,
+      new_status:
         !currentStatus,
-    })
-    .eq("id", businessId);
+    }
+  );
+
+
 
   if (error) {
     console.error(error);
