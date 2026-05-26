@@ -246,7 +246,7 @@ export default async function AdminDashboardPage() {
                             Open
                           </a>
 
-                         ```tsx id="p4n8xo"
+                  
 <form
   action={async () => {
     "use server";
@@ -270,7 +270,6 @@ export default async function AdminDashboardPage() {
       : "Enable"}
   </button>
 </form>
-```
 
                         </div>
                       </td>
