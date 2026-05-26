@@ -293,7 +293,7 @@ is_active: payload.is_active,
             onChange={(e) => setName(e.target.value)}
             required
             className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
-            placeholder="Example: Demo Kainan"
+            placeholder="Example: Demo Business"
           />
         </div>
 

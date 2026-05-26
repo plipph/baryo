@@ -34,7 +34,7 @@ export default async function BusinessPage() {
         <DashboardHeader
           eyebrow="Business Setup"
           title="Business Information"
-          description="Manage the public details of your storefront.Keenan"
+          description="Manage the public details of your storefront."
         />
 
         <DashboardCard>
