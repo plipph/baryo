@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
-import { BusinessStatusButton } from "./business-status-button";
 import { createClient } from "@/lib/supabase/server";
+
+import { toggleBusinessStatus } from "./actions/business-actions";
+
 
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
@@ -244,7 +246,32 @@ export default async function AdminDashboardPage() {
                             Open
                           </a>
 
-                          <BusinessStatusButton businessId={ business.id } isActive={ business.is_active } />
+                         ```tsx id="p4n8xo"
+<form
+  action={async () => {
+    "use server";
+
+    await toggleBusinessStatus(
+      business.id,
+      business.is_active
+    );
+  }}
+>
+  <button
+    type="submit"
+    className={`rounded-xl px-3 py-2 text-sm font-semibold text-white ${
+      business.is_active
+        ? "bg-red-500 hover:bg-red-600"
+        : "bg-[#596B3F] hover:bg-[#45532F]"
+    }`}
+  >
+    {business.is_active
+      ? "Disable"
+      : "Enable"}
+  </button>
+</form>
+```
+
                         </div>
                       </td>
                     </tr>
