@@ -1,108 +1,210 @@
 import Link from "next/link";
 
-export default function HomePage() {
+import {
+  Search,
+  MapPin,
+  Star,
+} from "lucide-react";
+
+import { createClient } from "@/lib/supabase/server";
+
+export const dynamic =
+  "force-dynamic";
+
+export default async function BusinessesPage() {
+  const supabase =
+    await createClient();
+
+  const { data: businesses } =
+    await supabase
+      .from("businesses")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", {
+        ascending: false,
+      });
+
   return (
-    <main className="min-h-screen bg-[#F7F1E8] text-stone-900">
-      <section className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-8">
-        <nav className="flex items-center justify-between">
-          <div>
-            <p className="text-2xl font-bold tracking-tight text-[#5A3825]">
-              Listahan
-            </p>
-            <p className="text-xs uppercase tracking-[0.25em] text-[#8A6A4F]">
-              Business websites made simple
-            </p>
-          </div>
+    <main className="min-h-screen bg-[#F7F1E8]">
+      {/* HERO */}
 
-          <div className="flex items-center gap-3">
-            <Link
-              href="/login"
-              className="rounded-xl px-4 py-2 text-sm font-medium text-stone-700 hover:bg-white/60"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="rounded-xl bg-[#C85A32] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#A94727]"
-            >
-              Get Started
-            </Link>
-          </div>
-        </nav>
+      <section className="border-b border-[#E7D8C5] bg-gradient-to-b from-[#FFFDF9] to-[#F7F1E8]">
+        <div className="mx-auto max-w-7xl px-6 py-12">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#8A6A4F]">
+            Directory
+          </p>
 
-        <div className="grid flex-1 items-center gap-12 py-16 lg:grid-cols-2">
-          <div>
-            <div className="mb-5 inline-flex rounded-full border border-[#D9C7B3] bg-white/60 px-4 py-2 text-sm text-[#5A3825]">
-              Built for Filipino MSMEs
+          <h1 className="mt-3 text-4xl font-black tracking-tight text-[#3D2A1E] md:text-6xl">
+            Discover Local
+            Businesses
+          </h1>
+
+          <p className="mt-4 max-w-2xl text-stone-600">
+            Explore restaurants,
+            clinics, stores,
+            professionals, and
+            local services across
+            Oriental Mindoro.
+          </p>
+
+          {/* SEARCH UI */}
+
+          <div className="mt-8 flex flex-col gap-4 md:flex-row">
+            <div className="flex flex-1 items-center rounded-2xl border border-[#E7D8C5] bg-white px-4 py-4 shadow-sm">
+              <Search className="mr-3 h-5 w-5 text-stone-400" />
+
+              <input
+                placeholder="Search businesses..."
+                disabled
+                className="w-full bg-transparent outline-none"
+              />
             </div>
 
-            <h1 className="max-w-3xl text-5xl font-bold tracking-tight text-[#3D2A1E] md:text-7xl">
-              Create your business website in minutes.
-            </h1>
+            <button className="rounded-2xl bg-[#596B3F] px-8 py-4 font-bold text-white">
+              Search
+            </button>
+          </div>
 
-            <p className="mt-6 max-w-xl text-lg leading-8 text-stone-700">
-              Listahan helps restaurants, resorts, salons, shops, freelancers,
-              and local businesses publish a mobile-friendly mini-website with
-              products, services, photos, location, and social links.
-            </p>
+          {/* INDUSTRY CHIPS */}
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/register"
-                className="rounded-2xl bg-[#C85A32] px-6 py-3 font-semibold text-white shadow-md hover:bg-[#A94727]"
+          <div className="mt-6 flex flex-wrap gap-3">
+            {[
+              "All",
+              "Restaurant",
+              "Clinic",
+              "Retail",
+              "Services",
+            ].map((chip) => (
+              <button
+                key={chip}
+                className="rounded-full border border-[#E7D8C5] bg-white px-5 py-2 text-sm font-semibold text-[#3D2A1E]"
               >
-                Start Free
-              </Link>
-              <Link
-                href="/p/demo-kainan"
-                className="rounded-2xl border border-[#BCA892] bg-white/70 px-6 py-3 font-semibold text-[#5A3825] hover:bg-white"
-              >
-                View Sample
-              </Link>
-            </div>
-          </div>
-
-          <div className="rounded-[2rem] border border-[#E2D4C2] bg-white/70 p-4 shadow-2xl">
-            <div className="rounded-[1.5rem] bg-[#FFF8EF] p-5">
-              <div className="rounded-3xl bg-[#596B3F] p-6 text-white">
-                <p className="text-sm opacity-80">Public Business Page</p>
-                <h2 className="mt-2 text-3xl font-bold">Demo Kainan</h2>
-                <p className="mt-2 text-sm opacity-90">
-                  Lutong-bahay na masarap, serbisyo na maaasahan.
-                </p>
-              </div>
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {["Chicken Inasal", "Pork Sisig", "Halo-Halo", "Kare-Kare"].map(
-                  (item) => (
-                    <div
-                      key={item}
-                      className="rounded-2xl border border-[#E7D8C5] bg-white p-4"
-                    >
-                      <div className="mb-3 h-24 rounded-xl bg-[#E9D8C0]" />
-                      <p className="font-semibold text-[#3D2A1E]">{item}</p>
-                      <p className="text-sm text-stone-500">Sample item</p>
-                    </div>
-                  )
-                )}
-              </div>
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {["Facebook", "Instagram", "Messenger", "Map", "Call"].map(
-                  (link) => (
-                    <span
-                      key={link}
-                      className="rounded-full bg-[#F1E5D4] px-3 py-1 text-xs font-medium text-[#5A3825]"
-                    >
-                      {link}
-                    </span>
-                  )
-                )}
-              </div>
-            </div>
+                {chip}
+              </button>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* FEATURED */}
+
+      <section className="mx-auto max-w-7xl px-6 pt-10">
+        <div className="mb-6 flex items-center gap-3">
+          <Star className="h-5 w-5 text-amber-500" />
+
+          <h2 className="text-2xl font-black text-[#3D2A1E]">
+            Featured Businesses
+          </h2>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {(businesses || [])
+            .slice(0, 3)
+            .map((business) => (
+              <BusinessCard
+                key={business.id}
+                business={business}
+                featured
+              />
+            ))}
+        </div>
+      </section>
+
+      {/* ALL BUSINESSES */}
+
+      <section className="mx-auto max-w-7xl px-6 py-12">
+        <div className="mb-8">
+          <h2 className="text-3xl font-black text-[#3D2A1E]">
+            All Businesses
+          </h2>
+
+          <p className="mt-2 text-stone-600">
+            {businesses?.length ||
+              0}{" "}
+            businesses found
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {(businesses || []).map(
+            (business) => (
+              <BusinessCard
+                key={business.id}
+                business={business}
+              />
+            )
+          )}
+        </div>
+      </section>
     </main>
+  );
+}
+
+function BusinessCard({
+  business,
+  featured = false,
+}: {
+  business: any;
+  featured?: boolean;
+}) {
+  return (
+    <Link
+      href={`/${business.slug}`}
+      className="overflow-hidden rounded-[2rem] border border-[#E7D8C5] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+    >
+      <div className="relative h-48 bg-[#EFE3D3]">
+        {business.cover_url ? (
+          <img
+            src={business.cover_url}
+            alt={business.name}
+            className="h-full w-full object-cover"
+          />
+        ) : null}
+
+        {featured && (
+          <div className="absolute left-4 top-4 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white">
+            Featured
+          </div>
+        )}
+      </div>
+
+      <div className="p-5">
+        <div className="flex items-center gap-4">
+          {business.logo_url ? (
+            <img
+              src={business.logo_url}
+              alt={business.name}
+              className="h-14 w-14 rounded-2xl object-cover"
+            />
+          ) : (
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E7D8C5] font-black text-[#3D2A1E]">
+              {business.name[0]}
+            </div>
+          )}
+
+          <div>
+            <h3 className="font-black text-[#3D2A1E]">
+              {business.name}
+            </h3>
+
+            <p className="text-sm text-stone-500">
+              {business.industry}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center gap-2 text-sm text-stone-500">
+          <MapPin className="h-4 w-4" />
+
+          <span>
+            {business.city}
+          </span>
+        </div>
+
+        <p className="mt-4 line-clamp-2 text-sm text-stone-600">
+          {business.description}
+        </p>
+      </div>
+    </Link>
   );
 }
