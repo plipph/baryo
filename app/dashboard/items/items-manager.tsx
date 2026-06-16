@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/client";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { uploadImage } from "@/lib/upload";
+import { Link } from "lucide-react";
+
 
 type Category = {
   id: string;
@@ -63,8 +65,19 @@ export function ItemsManager({
   const [editImageUrl, setEditImageUrl] = useState("");
   const [uploadingEditImage, setUploadingEditImage] = useState(false);
 
-  const libreLimitReached =
-    businessPlan === "libre" && initialItems.length >= 20;
+  const ITEM_LIMITS = {
+  libre: 10,
+  pro: Infinity,
+  premium: Infinity,
+};
+
+const currentLimit =
+  ITEM_LIMITS[
+    businessPlan as keyof typeof ITEM_LIMITS
+  ] ?? 10;
+
+const libreLimitReached =
+  initialItems.length >= currentLimit;
 
     async function handleItemImageUpload(file: File | null) {
   if (!file) return;
@@ -102,7 +115,7 @@ export function ItemsManager({
     }
 
     if (libreLimitReached) {
-      setMessage("Libre plan allows up to 20 items only.");
+     setMessage(`You have reached the ${currentLimit} item limit. Upgrade your plan to add more items.`);
       setLoading(false);
       return;
     }
@@ -264,7 +277,8 @@ async function saveEdit() {
 
         {libreLimitReached && (
           <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-            You reached the Libre plan limit of 20 items.
+           You reached your plan limit of {currentLimit} items.
+            Upgrade to Pro or Premium for unlimited products and services.
           </div>
         )}
 
@@ -397,10 +411,16 @@ async function saveEdit() {
         <div className="flex items-center justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-[#3D2A1E]">Current Items</h2>
-            <p className="mt-1 text-sm text-stone-600">
-              {initialItems.length} item{initialItems.length === 1 ? "" : "s"}{" "}
-              added.
-            </p>
+           <p className="mt-1 text-sm text-stone-600">
+  {initialItems.length}
+  {currentLimit !== Infinity &&
+    ` / ${currentLimit}`}{" "}
+  item
+  {initialItems.length === 1
+    ? ""
+    : "s"}{" "}
+  added.
+</p>
           </div>
 
           <span className="rounded-full bg-[#F1E5D4] px-4 py-2 text-sm font-semibold text-[#5A3825]">
@@ -408,13 +428,10 @@ async function saveEdit() {
           </span>
         </div>
 
-        <div className="mt-5 space-y-3">
-          {initialItems.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-stone-300 bg-[#FFF8EF] p-6 text-center text-stone-600">
-              No items yet. Add your first item.
-            </div>
-          ) : (
-            initialItems.map((item) => (
+        
+<div className="mt-5 space-y-4"> {initialItems.length === 0 ? ( <div className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-[#D8C6B3] bg-[#FFF8EF] px-8 py-20 text-center"> <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-sm"> 📦 </div> <h3 className="mt-6 text-3xl font-black tracking-tight text-[#3D2A1E]"> No items yet </h3> <p className="mt-4 max-w-md text-base leading-relaxed text-stone-600"> Add your first product, menu item, or service to start building your storefront experience. </p> <div className="mt-8 flex flex-wrap justify-center gap-3"> <button type="submit" className="rounded-2xl bg-[#C85A32] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]" > Add First Item </button> <Link href="/dashboard/categories" className="rounded-2xl border border-[#D8C6B3] bg-white px-6 py-4 font-semibold text-[#3D2A1E] transition hover:bg-[#F8F4EC]" > Create Categories </Link> </div> </div> ) : ( initialItems.map((item) => (
+
+
               <div
                 key={item.id}
                 className="flex flex-col gap-4 rounded-2xl border border-[#E7D8C5] bg-[#FFF8EF] p-4 md:flex-row md:items-center md:justify-between"
