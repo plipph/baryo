@@ -2,7 +2,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-import { LinksManager } from "./links-manager";
+import LinksManager from "./links-manager";
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { DashboardCard } from "@/components/dashboard/dashboard-card";
