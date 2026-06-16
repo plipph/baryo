@@ -324,10 +324,11 @@ export default async function PublicBusinessPage({
       {/* STOREFRONT */}
       <section className="relative z-10 mx-auto w-full max-w-5xl overflow-hidden px-4 pb-32 pt-8 md:px-6">
         <PublicStorefront
-          categories={categories || []}
-          items={items || []}
-          links={links || []}
-          appearance={appearance || null}
+          businessId={business.id}
+          categories={categories ?? []}
+          items={items ?? []}
+          links={links ?? []}
+          appearance={appearance}
         />
       </section>
     </main>

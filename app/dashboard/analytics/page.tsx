@@ -224,6 +224,56 @@ const groupedLinks =
     )
     .slice(0, 5);
 
+//Top Items
+const { data: topItems } =
+  await supabase
+    .from("item_clicks")
+    .select(`
+      item_id,
+      items (
+        id,
+        name,
+        price
+      )
+    `)
+    .eq(
+      "business_id",
+      business.id
+    );
+
+const groupedItems =
+  Object.values(
+    (topItems || []).reduce(
+      (acc: any, click: any) => {
+        const item =
+          click.items;
+
+        if (!item) {
+          return acc;
+        }
+
+        if (!acc[item.id]) {
+          acc[item.id] = {
+            id: item.id,
+            name: item.name,
+            price:
+              item.price,
+            clicks: 0,
+          };
+        }
+
+        acc[item.id].clicks += 1;
+
+        return acc;
+      },
+      {}
+    )
+  )
+    .sort(
+      (a: any, b: any) =>
+        b.clicks - a.clicks
+    )
+    .slice(0, 5);
 
 
   return (
@@ -331,7 +381,57 @@ const groupedLinks =
 </div>
 
 
+<div className="mt-8 rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
+  <div className="mb-6">
+    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+      Products
+    </p>
 
+    <h2 className="mt-2 text-2xl font-black text-[#3D2A1E]">
+      Top Items
+    </h2>
+  </div>
+
+  <div className="space-y-4">
+    {groupedItems.length ===
+    0 ? (
+      <p className="text-sm text-stone-500">
+        No item engagement yet.
+      </p>
+    ) : (
+      groupedItems.map(
+        (item: any) => (
+          <div
+            key={item.id}
+            className="flex items-center justify-between rounded-2xl border border-[#EFE3D3] bg-[#FFFDF9] px-4 py-4"
+          >
+            <div>
+              <p className="font-bold text-[#3D2A1E]">
+                {item.name}
+              </p>
+
+              <p className="text-sm text-stone-500">
+                ₱{item.price}
+              </p>
+            </div>
+
+            <div className="text-right">
+              <p className="text-2xl font-black text-[#596B3F]">
+                {
+                  item.clicks
+                }
+              </p>
+
+              <p className="text-xs uppercase tracking-[0.15em] text-stone-500">
+                Views
+              </p>
+            </div>
+          </div>
+        )
+      )
+    )}
+  </div>
+</div>
 
         {/* EMPTY STATE */}
         {(totalVisits || 0) ===

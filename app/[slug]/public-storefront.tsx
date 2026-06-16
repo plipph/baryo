@@ -47,6 +47,7 @@ type AppearanceSettings = {
 } | null;
 
 type PublicStorefrontProps = {
+  businessId: string;
   categories: Category[];
   items: Item[];
   links: LinkItem[];
@@ -83,12 +84,15 @@ const themeStyles = {
   },
 };
 
+
 export function PublicStorefront({
+  businessId,
   categories,
   items,
   links,
   appearance,
-}: PublicStorefrontProps) {
+}: PublicStorefrontProps)
+ {
   const [search, setSearch] = useState("");
 
   const [activeCategory, setActiveCategory] =
@@ -367,15 +371,7 @@ export function PublicStorefront({
                         role="button"
                         tabIndex={0}
                         aria-label={`Open ${item.name}`}
-                        onClick={() => {
-                          setSelectedItem(
-                            item
-                          );
-
-                          setIsModalOpen(
-                            true
-                          );
-                        }}
+                       onClick={async () => { setSelectedItem(item); setIsModalOpen(true); try { await fetch( `/api/track-item?businessId=${businessId}&itemId=${item.id}` ); } catch (error) { console.error(error); } }}
                         onKeyDown={(
                           e
                         ) => {
