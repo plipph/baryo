@@ -190,6 +190,10 @@ const { data: topLinks } =
       business.id
     );
 
+
+
+
+    
 const groupedLinks =
   Object.values(
     (topLinks || []).reduce(
@@ -224,7 +228,10 @@ const groupedLinks =
     )
     .slice(0, 5);
 
-//Top Items
+/*
+  TOP ITEMS
+*/
+
 const { data: topItems } =
   await supabase
     .from("item_clicks")
@@ -241,39 +248,39 @@ const { data: topItems } =
       business.id
     );
 
-const groupedItems =
-  Object.values(
-    (topItems || []).reduce(
-      (acc: any, click: any) => {
-        const item =
-          click.items;
+const groupedItems = Object.values(
+  (topItems || []).reduce(
+    (acc: any, click: any) => {
+      const item = Array.isArray(click.items)
+        ? click.items[0]
+        : click.items;
 
-        if (!item) {
-          return acc;
-        }
-
-        if (!acc[item.id]) {
-          acc[item.id] = {
-            id: item.id,
-            name: item.name,
-            price:
-              item.price,
-            clicks: 0,
-          };
-        }
-
-        acc[item.id].clicks += 1;
-
+      if (!item) {
         return acc;
-      },
-      {}
-    )
+      }
+
+      if (!acc[item.id]) {
+        acc[item.id] = {
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          clicks: 0,
+        };
+      }
+
+      acc[item.id].clicks += 1;
+
+      return acc;
+    },
+    {}
   )
-    .sort(
-      (a: any, b: any) =>
-        b.clicks - a.clicks
-    )
-    .slice(0, 5);
+)
+  .sort(
+    (a: any, b: any) =>
+      b.clicks - a.clicks
+  )
+  .slice(0, 5);
+
 
 
   return (
@@ -410,9 +417,14 @@ const groupedItems =
                 {item.name}
               </p>
 
-              <p className="text-sm text-stone-500">
-                ₱{item.price}
-              </p>
+             
+{item.price !== null && (
+  <p className="text-sm text-stone-500">
+    ₱{item.price}
+  </p>
+)}
+
+
             </div>
 
             <div className="text-right">
