@@ -39,6 +39,25 @@ const industries = [
   "Other",
 ];
 
+
+const provinces = [
+  "Oriental Mindoro",
+  "Occidental Mindoro",
+];
+
+const citiesByProvince = {
+  "Oriental Mindoro": [
+    "Baco","Bansud","Bongabong","Bulalacao","Calapan","Gloria","Mansalay",
+    "Naujan","Pinamalayan","Pola","Puerto Galera","Roxas","San Teodoro",
+    "Socorro","Victoria",
+  ],
+  "Occidental Mindoro": [
+    "Abra de Ilog","Calintaan","Looc","Lubang","Magsaysay","Mamburao",
+    "Paluan","Rizal","Sablayan","San Jose","Santa Cruz",
+  ],
+} as const;
+
+
 const reservedSlugs = [
   "dashboard",
   "login",
@@ -357,25 +376,38 @@ is_active: payload.is_active,
           <label className="text-sm font-medium text-stone-700">
             City / Municipality
           </label>
-          <input
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
-            placeholder="Calapan City"
-          />
+          <select
+    value={city}
+    onChange={(e)=>setCity(e.target.value)}
+    disabled={!province}
+    required
+    className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
+  >
+    <option value="">Select Municipality / City</option>
+    {(citiesByProvince[province as keyof typeof citiesByProvince] ?? []).map((item)=>(
+      <option key={item} value={item}>{item}</option>
+    ))}
+  </select>
         </div>
 
         <div>
           <label className="text-sm font-medium text-stone-700">
             Province
           </label>
-          <input
-            value={province}
-            onChange={(e) => setProvince(e.target.value)}
-            required
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
-            placeholder="Oriental Mindoro"
-          />
+          <select
+    value={province}
+    onChange={(e) => {
+      setProvince(e.target.value);
+      setCity("");
+    }}
+    required
+    className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
+  >
+    <option value="">Select Province</option>
+    {provinces.map((item) => (
+      <option key={item} value={item}>{item}</option>
+    ))}
+  </select>
         </div>
 
         <div className="md:col-span-2">
