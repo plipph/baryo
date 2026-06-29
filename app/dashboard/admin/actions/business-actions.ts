@@ -1,15 +1,26 @@
+
 "use server";
 
 import { revalidatePath } from "next/cache";
 
 import { createClient } from "@/lib/supabase/server";
-import { error } from "console";
+
+import { adminSupabase } from "@/lib/supabase/admin";
 
 export async function toggleBusinessStatus(
   formData: FormData
 ) {
+  /*
+    NORMAL USER CLIENT
+    (for auth verification only)
+  */
+
   const supabase =
     await createClient();
+
+  /*
+    FORM DATA
+  */
 
   const businessId =
     formData.get(
@@ -22,7 +33,7 @@ export async function toggleBusinessStatus(
     ) === "true";
 
   /*
-    AUTH
+    AUTH CHECK
   */
 
   const {
@@ -56,23 +67,19 @@ export async function toggleBusinessStatus(
   }
 
   /*
-    UPDATE
+    IMPORTANT:
+    SERVICE ROLE UPDATE
+    (bypasses RLS safely)
   */
 
-
-
-const { error } =
-  await supabase.rpc(
-    "toggle_business_status",
-    {
-      target_business_id:
-        businessId,
-      new_status:
-        !currentStatus,
-    }
-  );
-
-
+  const { error } =
+    await adminSupabase
+      .from("businesses")
+      .update({
+        is_active:
+          !currentStatus,
+      })
+      .eq("id", businessId);
 
   if (error) {
     console.error(error);
