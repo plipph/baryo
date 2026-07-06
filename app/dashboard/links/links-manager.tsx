@@ -588,14 +588,14 @@ const linkLimitReached =
         onSubmit={
           handleCreate
         }
-        className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm"
+        className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm"
       >
 
-     <h2 className="text-2xl font-black tracking-tight text-[#3D2A1E]">
+     <h2 className="text-2xl font-black tracking-tight text-[#111827]">
   Add Contact Link
 </h2>
 
-<p className="mt-2 text-sm font-medium text-[#8A6A4F]">
+<p className="mt-2 text-sm font-medium text-[#6B7280]">
   {visibleLinksCount}
   {currentLinkLimit !== Infinity
     ? ` / ${currentLinkLimit}`
@@ -627,7 +627,7 @@ const linkLimitReached =
                 e.target.value
               )
             }
-            className="w-full rounded-2xl border border-[#D8C6B3] bg-white px-4 py-4 outline-none focus:border-[#C85A32]"
+            className="w-full rounded-2xl border border-[#E5E7EB] bg-white px-4 py-4 outline-none focus:border-[#14532D]"
           >
             {linkTypes.map(
               (linkType) => (
@@ -655,7 +655,7 @@ const linkLimitReached =
               )
             }
             placeholder="Button Label"
-            className="w-full rounded-2xl border border-[#D8C6B3] px-4 py-4 outline-none focus:border-[#C85A32]"
+            className="w-full rounded-2xl border border-[#E5E7EB] px-4 py-4 outline-none focus:border-[#14532D]"
           />
 
           <input
@@ -668,7 +668,7 @@ const linkLimitReached =
             placeholder={getPlaceholder(
               type
             )}
-            className="w-full rounded-2xl border border-[#D8C6B3] px-4 py-4 outline-none focus:border-[#C85A32]"
+            className="w-full rounded-2xl border border-[#E5E7EB] px-4 py-4 outline-none focus:border-[#14532D]"
           />
 
           <input
@@ -682,7 +682,7 @@ const linkLimitReached =
               )
             }
             placeholder="Sort Order"
-            className="w-full rounded-2xl border border-[#D8C6B3] px-4 py-4 outline-none focus:border-[#C85A32]"
+            className="w-full rounded-2xl border border-[#E5E7EB] px-4 py-4 outline-none focus:border-[#14532D]"
           />
 
           <button
@@ -696,7 +696,7 @@ const linkLimitReached =
             }
             className={`w-full rounded-2xl px-4 py-4 text-sm font-semibold ${
               showInInquire
-                ? "bg-[#596B3F] text-white"
+                ? "bg-[#16A34A] text-white"
                 : "border border-stone-300 bg-white text-stone-700"
             }`}
           >
@@ -706,7 +706,7 @@ const linkLimitReached =
           </button>
 
           {message && (
-            <div className="rounded-2xl bg-[#F1E5D4] px-4 py-3 text-sm text-[#5A3825]">
+            <div className="rounded-2xl bg-[#F0FDF4] px-4 py-3 text-sm text-[#111827]">
               {message}
             </div>
           )}
@@ -716,7 +716,7 @@ const linkLimitReached =
               loading ||
               linkLimitReached
             }
-            className="w-full rounded-2xl bg-[#C85A32] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02] disabled:opacity-60"
+            className="w-full rounded-2xl bg-[#14532D] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02] disabled:opacity-60"
           >
             {loading
               ? "Adding..."
@@ -726,10 +726,10 @@ const linkLimitReached =
       </form>
 
       {/* LIST */}
-      <section className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
+      <section className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-black tracking-tight text-[#3D2A1E]">
+            <h2 className="text-2xl font-black tracking-tight text-[#111827]">
               Contact Links
             </h2>
 
@@ -746,7 +746,7 @@ const linkLimitReached =
             </p>
           </div>
 
-          <span className="rounded-full bg-[#F1E5D4] px-4 py-2 text-sm font-semibold text-[#5A3825]">
+          <span className="rounded-full bg-[#F0FDF4] px-4 py-2 text-sm font-semibold text-[#111827]">
             {businessPlan}
           </span>
         </div>
@@ -754,12 +754,12 @@ const linkLimitReached =
         <div className="mt-6 space-y-4">
           {initialLinks.length ===
           0 ? (
-            <div className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-[#D8C6B3] bg-[#FFF8EF] px-8 py-20 text-center">
+            <div className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-[#E5E7EB] bg-[#FFFFFF] px-8 py-20 text-center">
               <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-sm">
                 🔗
               </div>
 
-              <h3 className="mt-6 text-3xl font-black tracking-tight text-[#3D2A1E]">
+              <h3 className="mt-6 text-3xl font-black tracking-tight text-[#111827]">
                 No links yet
               </h3>
 
@@ -776,14 +776,14 @@ const linkLimitReached =
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <button
                   type="button"
-                  className="rounded-2xl bg-[#C85A32] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+                  className="rounded-2xl bg-[#14532D] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
                 >
                   Add First Link
                 </button>
 
                 <Link
                   href="/dashboard/items"
-                  className="rounded-2xl border border-[#D8C6B3] bg-white px-6 py-4 font-semibold text-[#3D2A1E] transition hover:bg-[#F8F4EC]"
+                  className="rounded-2xl border border-[#E5E7EB] bg-white px-6 py-4 font-semibold text-[#111827] transition hover:bg-[#F9FAFB]"
                 >
                   Manage Items
                 </Link>
@@ -794,7 +794,7 @@ const linkLimitReached =
               (link) => (
                 <div
                   key={link.id}
-                  className="rounded-[2rem] border border-[#E7D8C5] bg-[#FFF8EF] p-5"
+                  className="rounded-[2rem] border border-[#E5E7EB] bg-[#FFFFFF] p-5"
                 >
                   <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
                     {/* LEFT */}
@@ -815,7 +815,7 @@ const linkLimitReached =
                                   .value
                               )
                             }
-                            className="w-full rounded-2xl border border-[#D8C6B3] px-4 py-3 outline-none focus:border-[#C85A32]"
+                            className="w-full rounded-2xl border border-[#E5E7EB] px-4 py-3 outline-none focus:border-[#14532D]"
                           />
 
                           <select
@@ -831,7 +831,7 @@ const linkLimitReached =
                                   .value
                               )
                             }
-                            className="w-full rounded-2xl border border-[#D8C6B3] bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
+                            className="w-full rounded-2xl border border-[#E5E7EB] bg-white px-4 py-3 outline-none focus:border-[#14532D]"
                           >
                             {linkTypes.map(
                               (
@@ -866,7 +866,7 @@ const linkLimitReached =
                                   .value
                               )
                             }
-                            className="w-full rounded-2xl border border-[#D8C6B3] px-4 py-3 outline-none focus:border-[#C85A32]"
+                            className="w-full rounded-2xl border border-[#E5E7EB] px-4 py-3 outline-none focus:border-[#14532D]"
                           />
 
                           <div className="flex gap-2">
@@ -878,7 +878,7 @@ const linkLimitReached =
                               disabled={
                                 savingEdit
                               }
-                              className="rounded-xl bg-[#596B3F] px-4 py-2 text-sm font-semibold text-white"
+                              className="rounded-xl bg-[#16A34A] px-4 py-2 text-sm font-semibold text-white"
                             >
                               {savingEdit
                                 ? "Saving..."
@@ -899,7 +899,7 @@ const linkLimitReached =
                       ) : (
                         <>
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#C85A32]">
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#14532D]">
                               <LinkIcon
                                 type={
                                   link.type
@@ -907,7 +907,7 @@ const linkLimitReached =
                               />
                             </span>
 
-                            <h3 className="text-lg font-black text-[#3D2A1E]">
+                            <h3 className="text-lg font-black text-[#111827]">
                               {
                                 link.label
                               }
@@ -920,7 +920,7 @@ const linkLimitReached =
                             </span>
 
                             {link.is_primary && (
-                              <span className="rounded-full bg-[#596B3F] px-3 py-1 text-xs font-semibold text-white">
+                              <span className="rounded-full bg-[#16A34A] px-3 py-1 text-xs font-semibold text-white">
                                 Inquiry
                               </span>
                             )}

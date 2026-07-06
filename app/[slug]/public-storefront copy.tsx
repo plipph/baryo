@@ -56,9 +56,9 @@ type PublicStorefrontProps = {
 const themeStyles = {
   earthy: {
     page: "bg-[#F6F1E8] text-stone-900",
-    card: "bg-white border-[#E7D8C5]",
+    card: "bg-white border-[#E5E7EB]",
     muted: "text-stone-600",
-    surface: "bg-[#F8F4EC]",
+    surface: "bg-[#F9FAFB]",
   },
 
   minimal: {
@@ -107,7 +107,7 @@ export function PublicStorefront({
   /* THEME */
 
   const accentColor =
-    appearance?.accent_color || "#C85A32";
+    appearance?.accent_color || "#14532D";
 
   const cardRadius =
     appearance?.card_radius || "rounded";
@@ -228,7 +228,7 @@ export function PublicStorefront({
               className={`whitespace-nowrap px-5 py-3 text-sm font-semibold transition-all ${buttonRadiusClass} ${
                 activeCategory === null
                   ? "text-white"
-                  : "border border-[#E7D8C5] bg-white text-stone-700 hover:bg-[#F3E7D7]"
+                  : "border border-[#E5E7EB] bg-white text-stone-700 hover:bg-[#F0FDF4]"
               }`}
               style={{
                 backgroundColor:
@@ -259,7 +259,7 @@ export function PublicStorefront({
                   activeCategory ===
                   category.id
                     ? "text-white"
-                    : "border border-[#E7D8C5] bg-white text-stone-700 hover:bg-[#F3E7D7]"
+                    : "border border-[#E5E7EB] bg-white text-stone-700 hover:bg-[#F0FDF4]"
                 }`}
                 style={{
                   backgroundColor:
@@ -294,7 +294,7 @@ export function PublicStorefront({
             className={`text-2xl font-bold ${
               theme === "dark"
                 ? "text-white"
-                : "text-[#3D2A1E]"
+                : "text-[#111827]"
             }`}
           >
             No matching items
@@ -328,7 +328,7 @@ export function PublicStorefront({
                 {/* CATEGORY HEADER */}
                 <div className="mb-5 flex items-center justify-between md:mb-6">
                   <div>
-                    <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+                    <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
                       Category
                     </p>
 
@@ -336,7 +336,7 @@ export function PublicStorefront({
                       className={`mt-2 text-3xl md:text-4xl font-black tracking-tight ${
                         theme === "dark"
                           ? "text-white"
-                          : "text-[#3D2A1E]"
+                          : "text-[#111827]"
                       }`}
                     >
                       {category.name}
@@ -390,7 +390,7 @@ export function PublicStorefront({
                           />
                         </div>
                       ) : (
-                        <div className="flex h-52 md:h-56 items-center justify-center bg-[#F3E7D7] text-sm text-stone-500">
+                        <div className="flex h-52 md:h-56 items-center justify-center bg-[#F0FDF4] text-sm text-stone-500">
                           No image
                         </div>
                       )}
@@ -404,7 +404,7 @@ export function PublicStorefront({
                                 theme ===
                                 "dark"
                                   ? "text-white"
-                                  : "text-[#3D2A1E]"
+                                  : "text-[#111827]"
                               }`}
                             >
                               {item.name}
@@ -498,7 +498,7 @@ export function PublicStorefront({
                   />
                 </div>
               ) : (
-                <div className="flex h-72 items-center justify-center bg-[#F3E7D7] text-stone-500">
+                <div className="flex h-72 items-center justify-center bg-[#F0FDF4] text-stone-500">
                   No image
                 </div>
               )}
@@ -511,7 +511,7 @@ export function PublicStorefront({
                       className={`text-3xl md:text-4xl font-black tracking-tight ${
                         theme === "dark"
                           ? "text-white"
-                          : "text-[#3D2A1E]"
+                          : "text-[#111827]"
                       }`}
                     >
                       {

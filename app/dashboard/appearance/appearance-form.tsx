@@ -42,8 +42,8 @@ const themes = [
 ];
 
 const accentColors = [
-  "#C85A32",
-  "#596B3F",
+  "#14532D",
+  "#16A34A",
   "#3B82F6",
   "#7C3AED",
   "#111827",
@@ -67,10 +67,10 @@ export function AppearanceForm({
   );
 
   const [accentColor, setAccentColor] = useState(
-    initialAppearance?.accent_color || "#C85A32"
+    initialAppearance?.accent_color || "#14532D"
   );
 
-  const [surfaceStyle, setSurfaceStyle] = useState(
+  const [surfaceStyle] = useState(
     initialAppearance?.surface_style || "glass"
   );
 
@@ -82,7 +82,7 @@ export function AppearanceForm({
     initialAppearance?.button_style || "rounded"
   );
 
-  const [fontStyle, setFontStyle] = useState(
+  const [fontStyle] = useState(
     initialAppearance?.font_style || "modern"
   );
 
@@ -136,8 +136,8 @@ export function AppearanceForm({
       {/* SETTINGS */}
       <div className="space-y-6">
         {/* THEME */}
-        <section className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-bold text-[#3D2A1E]">
+        <section className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-bold text-[#111827]">
             Theme
           </h2>
 
@@ -153,11 +153,11 @@ export function AppearanceForm({
                 onClick={() => setTheme(item.value)}
                 className={`rounded-2xl border p-5 text-left transition-all ${
                   theme === item.value
-                    ? "border-[#596B3F] bg-[#EEF5E6]"
-                    : "border-[#E7D8C5] bg-white hover:bg-[#F8F4EC]"
+                    ? "border-[#16A34A] bg-[#EEF5E6]"
+                    : "border-[#E5E7EB] bg-white hover:bg-[#F9FAFB]"
                 }`}
               >
-                <p className="text-lg font-bold text-[#3D2A1E]">
+                <p className="text-lg font-bold text-[#111827]">
                   {item.label}
                 </p>
 
@@ -170,8 +170,8 @@ export function AppearanceForm({
         </section>
 
         {/* ACCENT COLOR */}
-        <section className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-bold text-[#3D2A1E]">
+        <section className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-bold text-[#111827]">
             Accent Color
           </h2>
 
@@ -199,8 +199,8 @@ export function AppearanceForm({
         </section>
 
         {/* CARD STYLE */}
-        <section className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-bold text-[#3D2A1E]">
+        <section className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-bold text-[#111827]">
             Card Radius
           </h2>
 
@@ -212,8 +212,8 @@ export function AppearanceForm({
                 onClick={() => setCardRadius(radius)}
                 className={`rounded-2xl px-5 py-3 text-sm font-semibold transition-all ${
                   cardRadius === radius
-                    ? "bg-[#596B3F] text-white"
-                    : "border border-[#E7D8C5] bg-white text-stone-700"
+                    ? "bg-[#16A34A] text-white"
+                    : "border border-[#E5E7EB] bg-white text-stone-700"
                 }`}
               >
                 {radius}
@@ -223,8 +223,8 @@ export function AppearanceForm({
         </section>
 
         {/* BUTTON STYLE */}
-        <section className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-bold text-[#3D2A1E]">
+        <section className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-bold text-[#111827]">
             Button Style
           </h2>
 
@@ -236,8 +236,8 @@ export function AppearanceForm({
                 onClick={() => setButtonStyle(style)}
                 className={`rounded-2xl px-5 py-3 text-sm font-semibold transition-all ${
                   buttonStyle === style
-                    ? "bg-[#596B3F] text-white"
-                    : "border border-[#E7D8C5] bg-white text-stone-700"
+                    ? "bg-[#16A34A] text-white"
+                    : "border border-[#E5E7EB] bg-white text-stone-700"
                 }`}
               >
                 {style}
@@ -252,7 +252,7 @@ export function AppearanceForm({
             type="button"
             onClick={handleSave}
             disabled={saving}
-            className="rounded-2xl bg-[#C85A32] px-6 py-4 font-semibold text-white transition-all hover:bg-[#A94727]"
+            className="rounded-2xl bg-[#14532D] px-6 py-4 font-semibold text-white transition-all hover:bg-[#166534]"
           >
             {saving ? "Saving..." : "Save Appearance"}
           </button>
@@ -267,7 +267,7 @@ export function AppearanceForm({
 
       {/* LIVE PREVIEW */}
       <div className="sticky top-24 h-fit">
-        <div className="overflow-hidden rounded-[2rem] border border-[#E7D8C5] bg-white shadow-xl">
+        <div className="overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-xl">
           <div
             className="h-40"
             style={{
@@ -289,7 +289,7 @@ export function AppearanceForm({
               }`}
             />
 
-            <h3 className="mt-5 text-3xl font-black text-[#3D2A1E]">
+            <h3 className="mt-5 text-3xl font-black text-[#111827]">
               Your Business
             </h3>
 

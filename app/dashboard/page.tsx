@@ -164,16 +164,16 @@ export default async function DashboardPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[#F7F1E8] px-6 py-8 text-stone-900">
+    <main className="min-h-screen bg-[#FAF7F2] px-6 py-8 text-stone-900">
       <div className="mx-auto max-w-7xl">
         {/* HEADER */}
         <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#8A6A4F]">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#6B7280]">
               Listahan Dashboard
             </p>
 
-            <h1 className="mt-2 text-4xl font-black tracking-tight text-[#3D2A1E]">
+            <h1 className="mt-2 text-4xl font-black tracking-tight text-[#111827]">
               Welcome back,
               {" "}
               {profile?.full_name ||
@@ -192,7 +192,7 @@ export default async function DashboardPage() {
         </header>
 
         {/* PROGRESS CARD */}
-        <section className="overflow-hidden rounded-[2rem] border border-[#E7D8C5] bg-white shadow-sm">
+        <section className="overflow-hidden rounded-[2rem] border border-[#E5E7EB] bg-white shadow-sm">
           <div className="grid gap-8 p-8 md:grid-cols-[1.4fr_0.8fr]">
             {/* LEFT */}
             <div>
@@ -202,7 +202,7 @@ export default async function DashboardPage() {
                 Setup Progress
               </div>
 
-              <h2 className="mt-5 text-5xl font-black tracking-tight text-[#3D2A1E]">
+              <h2 className="mt-5 text-5xl font-black tracking-tight text-[#111827]">
                 {progress}%
               </h2>
 
@@ -216,12 +216,12 @@ export default async function DashboardPage() {
 {/* GUIDANCE ALERTS */}
 <div className="mt-6 space-y-4">
   {!business && (
-    <div className="rounded-[2rem] border border-[#E7D8C5] bg-[#FFF8EF] p-6">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+    <div className="rounded-[2rem] border border-[#E5E7EB] bg-[#FFFFFF] p-6">
+      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
         Getting Started
       </p>
 
-      <h3 className="mt-2 text-2xl font-black tracking-tight text-[#3D2A1E]">
+      <h3 className="mt-2 text-2xl font-black tracking-tight text-[#111827]">
         Create your first business
       </h3>
 
@@ -234,7 +234,7 @@ export default async function DashboardPage() {
 
       <Link
         href="/dashboard/business"
-        className="mt-6 inline-flex rounded-2xl bg-[#C85A32] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+        className="mt-6 inline-flex rounded-2xl bg-[#14532D] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
       >
         Start Setup
       </Link>
@@ -244,12 +244,12 @@ export default async function DashboardPage() {
   {business &&
     (categoryCount || 0) ===
       0 && (
-      <div className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+      <div className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
           Recommended Next Step
         </p>
 
-        <h3 className="mt-2 text-2xl font-black tracking-tight text-[#3D2A1E]">
+        <h3 className="mt-2 text-2xl font-black tracking-tight text-[#111827]">
           Add categories
         </h3>
 
@@ -262,7 +262,7 @@ export default async function DashboardPage() {
 
         <Link
           href="/dashboard/categories"
-          className="mt-6 inline-flex rounded-2xl bg-[#C85A32] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+          className="mt-6 inline-flex rounded-2xl bg-[#14532D] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
         >
           Create Categories
         </Link>
@@ -274,12 +274,12 @@ export default async function DashboardPage() {
       0 &&
     (itemCount || 0) ===
       0 && (
-      <div className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+      <div className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
           Recommended Next Step
         </p>
 
-        <h3 className="mt-2 text-2xl font-black tracking-tight text-[#3D2A1E]">
+        <h3 className="mt-2 text-2xl font-black tracking-tight text-[#111827]">
           Add products or services
         </h3>
 
@@ -291,7 +291,7 @@ export default async function DashboardPage() {
 
         <Link
           href="/dashboard/items"
-          className="mt-6 inline-flex rounded-2xl bg-[#C85A32] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+          className="mt-6 inline-flex rounded-2xl bg-[#14532D] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
         >
           Add Items
         </Link>
@@ -303,12 +303,12 @@ export default async function DashboardPage() {
       0 &&
     (linkCount || 0) ===
       0 && (
-      <div className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+      <div className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
           Recommended Next Step
         </p>
 
-        <h3 className="mt-2 text-2xl font-black tracking-tight text-[#3D2A1E]">
+        <h3 className="mt-2 text-2xl font-black tracking-tight text-[#111827]">
           Add contact links
         </h3>
 
@@ -322,7 +322,7 @@ export default async function DashboardPage() {
 
         <Link
           href="/dashboard/links"
-          className="mt-6 inline-flex rounded-2xl bg-[#C85A32] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+          className="mt-6 inline-flex rounded-2xl bg-[#14532D] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
         >
           Add Links
         </Link>
@@ -350,7 +350,7 @@ export default async function DashboardPage() {
         <Link
           href={`/${business.slug}`}
           target="_blank"
-          className="mt-6 inline-flex rounded-2xl bg-[#596B3F] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+          className="mt-6 inline-flex rounded-2xl bg-[#16A34A] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
         >
           Open Storefront
         </Link>
@@ -369,7 +369,7 @@ export default async function DashboardPage() {
                   style={{
                     width: `${progress}%`,
                     backgroundColor:
-                      "#C85A32",
+                      "#14532D",
                   }}
                 />
               </div>
@@ -380,7 +380,7 @@ export default async function DashboardPage() {
                   <Link
                     href={`/${business.slug}`}
                     target="_blank"
-                    className="inline-flex items-center gap-2 rounded-2xl bg-[#C85A32] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+                    className="inline-flex items-center gap-2 rounded-2xl bg-[#14532D] px-5 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
                   >
                     <Globe className="h-5 w-5" />
 
@@ -389,7 +389,7 @@ export default async function DashboardPage() {
 
                   <Link
                     href="/dashboard/business"
-                    className="inline-flex items-center gap-2 rounded-2xl border border-[#D8C6B3] bg-white px-5 py-4 font-semibold text-[#3D2A1E]"
+                    className="inline-flex items-center gap-2 rounded-2xl border border-[#E5E7EB] bg-white px-5 py-4 font-semibold text-[#111827]"
                   >
                     Manage Business
 
@@ -400,8 +400,8 @@ export default async function DashboardPage() {
             </div>
 
             {/* RIGHT */}
-            <div className="rounded-[2rem] bg-[#FFF8EF] p-6">
-              <h3 className="text-lg font-black text-[#3D2A1E]">
+            <div className="rounded-[2rem] bg-[#FFFFFF] p-6">
+              <h3 className="text-lg font-black text-[#111827]">
                 Launch Checklist
               </h3>
 
@@ -424,14 +424,14 @@ export default async function DashboardPage() {
                             className={`flex h-11 w-11 items-center justify-center rounded-2xl ${
                               item.complete
                                 ? "bg-[#EEF6E9] text-[#3D6B35]"
-                                : "bg-[#F3ECE2] text-[#8A6A4F]"
+                                : "bg-[#F3ECE2] text-[#6B7280]"
                             }`}
                           >
                             <Icon className="h-5 w-5" />
                           </div>
 
                           <div>
-                            <p className="font-semibold text-[#3D2A1E]">
+                            <p className="font-semibold text-[#111827]">
                               {
                                 item.label
                               }

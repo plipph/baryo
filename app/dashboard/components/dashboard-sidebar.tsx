@@ -61,20 +61,20 @@ export function DashboardSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden h-screen w-72 shrink-0 border-r border-[#E7D8C5] bg-[#FFFDF9] lg:flex lg:flex-col">
-      <div className="border-b border-[#E7D8C5] px-6 py-6">
+    <aside className="hidden h-screen w-72 shrink-0 border-r border-[#E5E7EB]/80 bg-white/90 backdrop-blur-xl lg:flex lg:flex-col">
+      <div className="border-b border-[#E5E7EB]/80 px-6 py-6">
         <Link href="/dashboard">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8A6A4F]">
-              Listahan
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#16A34A]">
+              MyNegosyo
             </p>
 
-            <h1 className="mt-2 text-2xl font-black tracking-tight text-[#3D2A1E]">
+            <h1 className="mt-2 text-2xl font-black tracking-tight text-[#111827]">
               Business Hub
             </h1>
 
-            <p className="mt-2 text-sm text-stone-500">
-              Multi-tenant business platform
+            <p className="mt-2 text-sm text-[#6B7280]">
+              Manage your local storefront
             </p>
           </div>
         </Link>
@@ -95,8 +95,8 @@ export function DashboardSidebar() {
               href={item.href}
               className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-all ${
                 active
-                  ? "bg-[#596B3F] text-white shadow-md"
-                  : "text-stone-600 hover:bg-[#F3E7D7] hover:text-[#3D2A1E]"
+                  ? "bg-[#14532D] text-white shadow-[0_16px_32px_-22px_rgba(20,83,45,0.9)]"
+                  : "text-[#6B7280] hover:bg-[#F0FDF4] hover:text-[#111827]"
               }`}
             >
               <Icon className="h-5 w-5" />
@@ -107,13 +107,13 @@ export function DashboardSidebar() {
         })}
       </nav>
 
-      <div className="border-t border-[#E7D8C5] p-4">
-        <div className="rounded-2xl bg-[#F3E7D7] p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+      <div className="border-t border-[#E5E7EB]/80 p-4">
+        <div className="rounded-2xl bg-[#F0FDF4] p-4 ring-1 ring-green-100">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#14532D]">
             Current Plan
           </p>
 
-          <p className="mt-2 text-lg font-bold text-[#3D2A1E]">
+          <p className="mt-2 text-lg font-bold text-[#111827]">
             Libre
           </p>
 

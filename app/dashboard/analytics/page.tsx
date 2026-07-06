@@ -4,6 +4,39 @@ import { createClient } from "@/lib/supabase/server";
 
 import { AnalyticsChart } from "./analytics-chart";
 
+type LinkedBusinessLink = {
+  id: string;
+  label: string;
+  type: string;
+};
+
+type LinkClick = {
+  link_id: string;
+  business_links: LinkedBusinessLink | LinkedBusinessLink[] | null;
+};
+
+type LinkedItem = {
+  id: string;
+  name: string;
+  price: number | null;
+};
+
+type ItemClick = {
+  item_id: string;
+  items: LinkedItem | LinkedItem[] | null;
+};
+
+type LinkEngagement = LinkedBusinessLink & {
+  clicks: number;
+};
+
+type ItemEngagement = LinkedItem & {
+  clicks: number;
+};
+
+function firstRelated<T>(value: T | T[] | null): T | null {
+  return Array.isArray(value) ? value[0] ?? null : value;
+}
 
 export default async function AnalyticsPage() {
   const supabase =
@@ -196,10 +229,10 @@ const { data: topLinks } =
     
 const groupedLinks =
   Object.values(
-    (topLinks || []).reduce(
-      (acc: any, click: any) => {
+    ((topLinks || []) as LinkClick[]).reduce<Record<string, LinkEngagement>>(
+      (acc, click) => {
         const link =
-          click.business_links;
+          firstRelated(click.business_links);
 
         if (!link) {
           return acc;
@@ -223,7 +256,7 @@ const groupedLinks =
     )
   )
     .sort(
-      (a: any, b: any) =>
+      (a, b) =>
         b.clicks - a.clicks
     )
     .slice(0, 5);
@@ -249,11 +282,9 @@ const { data: topItems } =
     );
 
 const groupedItems = Object.values(
-  (topItems || []).reduce(
-    (acc: any, click: any) => {
-      const item = Array.isArray(click.items)
-        ? click.items[0]
-        : click.items;
+  ((topItems || []) as ItemClick[]).reduce<Record<string, ItemEngagement>>(
+    (acc, click) => {
+      const item = firstRelated(click.items);
 
       if (!item) {
         return acc;
@@ -276,7 +307,7 @@ const groupedItems = Object.values(
   )
 )
   .sort(
-    (a: any, b: any) =>
+    (a, b) =>
       b.clicks - a.clicks
   )
   .slice(0, 5);
@@ -284,15 +315,15 @@ const groupedItems = Object.values(
 
 
   return (
-    <main className="min-h-screen bg-[#F7F1E8] px-6 py-8">
+    <main className="min-h-screen bg-[#FAF7F2] px-6 py-8">
       <div className="mx-auto max-w-6xl">
         {/* HEADER */}
         <div className="mb-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#8A6A4F]">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#6B7280]">
             Analytics
           </p>
 
-          <h1 className="mt-2 text-4xl font-black tracking-tight text-[#3D2A1E]">
+          <h1 className="mt-2 text-4xl font-black tracking-tight text-[#111827]">
             Business Insights
           </h1>
 
@@ -335,13 +366,13 @@ const groupedItems = Object.values(
 </div>
 
 
-<div className="mt-8 rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
+<div className="mt-8 rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
   <div className="mb-6">
-    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
       Engagement
     </p>
 
-    <h2 className="mt-2 text-2xl font-black text-[#3D2A1E]">
+    <h2 className="mt-2 text-2xl font-black text-[#111827]">
       Top Links
     </h2>
   </div>
@@ -354,13 +385,13 @@ const groupedItems = Object.values(
       </p>
     ) : (
       groupedLinks.map(
-        (link: any) => (
+        (link) => (
           <div
             key={link.id}
-            className="flex items-center justify-between rounded-2xl border border-[#EFE3D3] bg-[#FFFDF9] px-4 py-4"
+            className="flex items-center justify-between rounded-2xl border border-[#F3F4F6] bg-[#FFFFFF] px-4 py-4"
           >
             <div>
-              <p className="font-bold text-[#3D2A1E]">
+              <p className="font-bold text-[#111827]">
                 {link.label}
               </p>
 
@@ -370,7 +401,7 @@ const groupedItems = Object.values(
             </div>
 
             <div className="text-right">
-              <p className="text-2xl font-black text-[#596B3F]">
+              <p className="text-2xl font-black text-[#16A34A]">
                 {
                   link.clicks
                 }
@@ -388,13 +419,13 @@ const groupedItems = Object.values(
 </div>
 
 
-<div className="mt-8 rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
+<div className="mt-8 rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
   <div className="mb-6">
-    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
       Products
     </p>
 
-    <h2 className="mt-2 text-2xl font-black text-[#3D2A1E]">
+    <h2 className="mt-2 text-2xl font-black text-[#111827]">
       Top Items
     </h2>
   </div>
@@ -407,13 +438,13 @@ const groupedItems = Object.values(
       </p>
     ) : (
       groupedItems.map(
-        (item: any) => (
+        (item) => (
           <div
             key={item.id}
-            className="flex items-center justify-between rounded-2xl border border-[#EFE3D3] bg-[#FFFDF9] px-4 py-4"
+            className="flex items-center justify-between rounded-2xl border border-[#F3F4F6] bg-[#FFFFFF] px-4 py-4"
           >
             <div>
-              <p className="font-bold text-[#3D2A1E]">
+              <p className="font-bold text-[#111827]">
                 {item.name}
               </p>
 
@@ -428,7 +459,7 @@ const groupedItems = Object.values(
             </div>
 
             <div className="text-right">
-              <p className="text-2xl font-black text-[#596B3F]">
+              <p className="text-2xl font-black text-[#16A34A]">
                 {
                   item.clicks
                 }
@@ -448,8 +479,8 @@ const groupedItems = Object.values(
         {/* EMPTY STATE */}
         {(totalVisits || 0) ===
           0 && (
-          <div className="mt-8 rounded-[2rem] border border-dashed border-[#D8C3AC] bg-white p-10 text-center">
-            <h2 className="text-2xl font-black text-[#3D2A1E]">
+          <div className="mt-8 rounded-[2rem] border border-dashed border-[#E5E7EB] bg-white p-10 text-center">
+            <h2 className="text-2xl font-black text-[#111827]">
               No analytics yet
             </h2>
 
@@ -473,12 +504,12 @@ function AnalyticsCard({
   value: number;
 }) {
   return (
-    <div className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+    <div className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
+      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
         {label}
       </p>
 
-      <h2 className="mt-4 text-5xl font-black tracking-tight text-[#3D2A1E]">
+      <h2 className="mt-4 text-5xl font-black tracking-tight text-[#111827]">
         {value}
       </h2>
     </div>

@@ -12,7 +12,7 @@ import {
 export async function updateSession(
   request: NextRequest
 ) {
-  let response =
+  const response =
     NextResponse.next({
       request: {
         headers:

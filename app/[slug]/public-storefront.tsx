@@ -56,10 +56,10 @@ type PublicStorefrontProps = {
 
 const themeStyles = {
   earthy: {
-    page: "bg-[#F6F1E8] text-stone-900",
-    card: "bg-white border-[#E7D8C5]",
-    muted: "text-stone-600",
-    surface: "bg-[#F8F4EC]",
+    page: "bg-[#FAF7F2] text-stone-900",
+    card: "bg-white border-[#E5E7EB]",
+    muted: "text-[#6B7280]",
+    surface: "bg-[#F9FAFB]",
   },
 
   minimal: {
@@ -109,7 +109,7 @@ export function PublicStorefront({
   >({});
 
   const accentColor =
-    appearance?.accent_color || "#C85A32";
+    appearance?.accent_color || "#14532D";
 
   const cardRadius =
     appearance?.card_radius || "rounded";
@@ -226,10 +226,10 @@ export function PublicStorefront({
                 onClick={() =>
                   setActiveCategory(null)
                 }
-                className={`shrink-0 whitespace-nowrap px-5 py-3 text-sm font-semibold transition-all ${buttonRadiusClass} ${
+                className={`shrink-0 whitespace-nowrap px-5 py-3 text-sm font-bold transition-all ${buttonRadiusClass} ${
                   activeCategory === null
                     ? "text-white"
-                    : "border border-[#E7D8C5] bg-white text-stone-700"
+                    : "border border-[#E5E7EB] bg-white text-[#6B7280]"
                 }`}
                 style={{
                   backgroundColor:
@@ -257,11 +257,11 @@ export function PublicStorefront({
                       block: "start",
                     });
                   }}
-                  className={`shrink-0 whitespace-nowrap px-5 py-3 text-sm font-semibold transition-all ${buttonRadiusClass} ${
+                  className={`shrink-0 whitespace-nowrap px-5 py-3 text-sm font-bold transition-all ${buttonRadiusClass} ${
                     activeCategory ===
                     category.id
                       ? "text-white"
-                      : "border border-[#E7D8C5] bg-white text-stone-700"
+                      : "border border-[#E5E7EB] bg-white text-[#6B7280]"
                   }`}
                   style={{
                     backgroundColor:
@@ -296,7 +296,7 @@ export function PublicStorefront({
               className={`text-2xl font-bold ${
                 theme === "dark"
                   ? "text-white"
-                  : "text-[#3D2A1E]"
+                  : "text-[#111827]"
               }`}
             >
               No matching items
@@ -330,7 +330,7 @@ export function PublicStorefront({
                   {/* HEADER */}
                   <div className="mb-5 flex items-center justify-between md:mb-6">
                     <div className="min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8A6A4F] md:text-sm">
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#16A34A] md:text-sm">
                         Category
                       </p>
 
@@ -339,7 +339,7 @@ export function PublicStorefront({
                           theme ===
                           "dark"
                             ? "text-white"
-                            : "text-[#3D2A1E]"
+                            : "text-[#111827]"
                         }`}
                       >
                         {category.name}
@@ -411,7 +411,7 @@ export function PublicStorefront({
                             />
                           </div>
                         ) : (
-                          <div className="flex h-52 items-center justify-center bg-[#F3E7D7] text-sm text-stone-500 md:h-56">
+                          <div className="flex h-52 items-center justify-center bg-[#F0FDF4] text-sm text-stone-500 md:h-56">
                             No image
                           </div>
                         )}
@@ -425,7 +425,7 @@ export function PublicStorefront({
                                   theme ===
                                   "dark"
                                     ? "text-white"
-                                    : "text-[#3D2A1E]"
+                                    : "text-[#111827]"
                                 }`}
                               >
                                 {item.name}
@@ -519,7 +519,7 @@ export function PublicStorefront({
                   />
                 </div>
               ) : (
-                <div className="flex h-72 items-center justify-center bg-[#F3E7D7] text-stone-500">
+                <div className="flex h-72 items-center justify-center bg-[#F0FDF4] text-stone-500">
                   No image
                 </div>
               )}
@@ -532,7 +532,7 @@ export function PublicStorefront({
                       className={`break-words text-3xl font-black tracking-tight md:text-4xl ${
                         theme === "dark"
                           ? "text-white"
-                          : "text-[#3D2A1E]"
+                          : "text-[#111827]"
                       }`}
                     >
                       {

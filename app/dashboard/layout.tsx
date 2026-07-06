@@ -13,7 +13,7 @@ export default function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   return (
-    <div className="flex min-h-screen bg-[#F7F1E8]">
+    <div className="flex min-h-screen bg-[#FAF7F2] text-[#111827]">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block">
         <DashboardSidebar />

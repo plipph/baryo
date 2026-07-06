@@ -270,7 +270,7 @@ async function saveEdit() {
         onSubmit={handleCreate}
         className="rounded-3xl border border-[#E2D4C2] bg-white/80 p-6 shadow-sm"
       >
-        <h2 className="text-xl font-bold text-[#3D2A1E]">Add Item</h2>
+        <h2 className="text-xl font-bold text-[#111827]">Add Item</h2>
         <p className="mt-2 text-sm text-stone-600">
           Add menu items, services, rooms, packages, or products.
         </p>
@@ -290,7 +290,7 @@ async function saveEdit() {
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
               placeholder="Chicken Inasal"
             />
           </div>
@@ -302,7 +302,7 @@ async function saveEdit() {
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
+              className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#14532D]"
             >
               <option value="">Uncategorized</option>
               {categories.map((category) => (
@@ -322,7 +322,7 @@ async function saveEdit() {
               onChange={(e) => setPrice(e.target.value)}
               type="number"
               step="0.01"
-              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
               placeholder="120"
             />
           </div>
@@ -335,7 +335,7 @@ async function saveEdit() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={4}
-              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
               placeholder="Short description of the item."
             />
           </div>
@@ -354,12 +354,12 @@ async function saveEdit() {
         className="mb-3 h-32 w-full rounded-2xl object-cover"
       />
     ) : (
-      <div className="mb-3 flex h-32 w-full items-center justify-center rounded-2xl bg-[#E9D8C0] text-xs text-[#8A6A4F]">
+      <div className="mb-3 flex h-32 w-full items-center justify-center rounded-2xl bg-[#F3F4F6] text-xs text-[#6B7280]">
         No image
       </div>
     )}
 
-    <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#C85A32] px-4 py-2 text-sm font-semibold text-white hover:bg-[#A94727]">
+    <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#14532D] px-4 py-2 text-sm font-semibold text-white hover:bg-[#166534]">
       Upload Item Image
       <input
         type="file"
@@ -376,7 +376,7 @@ async function saveEdit() {
     </p>
 
     {uploadingImage && (
-      <p className="mt-2 text-sm text-[#C85A32]">Uploading image...</p>
+      <p className="mt-2 text-sm text-[#14532D]">Uploading image...</p>
     )}
   </div>
 </div>
@@ -388,19 +388,19 @@ async function saveEdit() {
               value={sortOrder}
               onChange={(e) => setSortOrder(Number(e.target.value))}
               type="number"
-              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
             />
           </div>
 
           {message && (
-            <p className="rounded-xl bg-[#F1E5D4] px-4 py-3 text-sm text-[#5A3825]">
+            <p className="rounded-xl bg-[#F0FDF4] px-4 py-3 text-sm text-[#111827]">
               {message}
             </p>
           )}
 
           <button
             disabled={loading || libreLimitReached}
-            className="w-full rounded-2xl bg-[#C85A32] px-5 py-3 font-semibold text-white hover:bg-[#A94727] disabled:opacity-60"
+            className="w-full rounded-2xl bg-[#14532D] px-5 py-3 font-semibold text-white hover:bg-[#166534] disabled:opacity-60"
           >
             {loading ? "Adding..." : "Add Item"}
           </button>
@@ -410,7 +410,7 @@ async function saveEdit() {
       <section className="rounded-3xl border border-[#E2D4C2] bg-white/80 p-6 shadow-sm">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold text-[#3D2A1E]">Current Items</h2>
+            <h2 className="text-xl font-bold text-[#111827]">Current Items</h2>
            <p className="mt-1 text-sm text-stone-600">
   {initialItems.length}
   {currentLimit !== Infinity &&
@@ -423,22 +423,22 @@ async function saveEdit() {
 </p>
           </div>
 
-          <span className="rounded-full bg-[#F1E5D4] px-4 py-2 text-sm font-semibold text-[#5A3825]">
+          <span className="rounded-full bg-[#F0FDF4] px-4 py-2 text-sm font-semibold text-[#111827]">
             Plan: {businessPlan}
           </span>
         </div>
 
         
-<div className="mt-5 space-y-4"> {initialItems.length === 0 ? ( <div className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-[#D8C6B3] bg-[#FFF8EF] px-8 py-20 text-center"> <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-sm"> 📦 </div> <h3 className="mt-6 text-3xl font-black tracking-tight text-[#3D2A1E]"> No items yet </h3> <p className="mt-4 max-w-md text-base leading-relaxed text-stone-600"> Add your first product, menu item, or service to start building your storefront experience. </p> <div className="mt-8 flex flex-wrap justify-center gap-3"> <button type="submit" className="rounded-2xl bg-[#C85A32] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]" > Add First Item </button> <Link href="/dashboard/categories" className="rounded-2xl border border-[#D8C6B3] bg-white px-6 py-4 font-semibold text-[#3D2A1E] transition hover:bg-[#F8F4EC]" > Create Categories </Link> </div> </div> ) : ( initialItems.map((item) => (
+<div className="mt-5 space-y-4"> {initialItems.length === 0 ? ( <div className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-[#E5E7EB] bg-[#FFFFFF] px-8 py-20 text-center"> <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-sm"> 📦 </div> <h3 className="mt-6 text-3xl font-black tracking-tight text-[#111827]"> No items yet </h3> <p className="mt-4 max-w-md text-base leading-relaxed text-stone-600"> Add your first product, menu item, or service to start building your storefront experience. </p> <div className="mt-8 flex flex-wrap justify-center gap-3"> <button type="submit" className="rounded-2xl bg-[#14532D] px-6 py-4 font-semibold text-white shadow-lg transition hover:scale-[1.02]" > Add First Item </button> <Link href="/dashboard/categories" className="rounded-2xl border border-[#E5E7EB] bg-white px-6 py-4 font-semibold text-[#111827] transition hover:bg-[#F9FAFB]" > Create Categories </Link> </div> </div> ) : ( initialItems.map((item) => (
 
 
               <div
                 key={item.id}
-                className="flex flex-col gap-4 rounded-2xl border border-[#E7D8C5] bg-[#FFF8EF] p-4 md:flex-row md:items-center md:justify-between"
+                className="flex flex-col gap-4 rounded-2xl border border-[#E5E7EB] bg-[#FFFFFF] p-4 md:flex-row md:items-center md:justify-between"
               >
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <p className="font-semibold text-[#3D2A1E]">{item.name}</p>
+                    <p className="font-semibold text-[#111827]">{item.name}</p>
 
                     <span className="rounded-full bg-white px-3 py-1 text-xs text-stone-600">
                       {item.categories?.name || "Uncategorized"}
@@ -461,7 +461,7 @@ async function saveEdit() {
                     </p>
                   )}
 
-                  <p className="mt-2 text-sm font-semibold text-[#596B3F]">
+                  <p className="mt-2 text-sm font-semibold text-[#16A34A]">
                     {item.price !== null ? `₱${Number(item.price).toFixed(2)}` : "No price"}
                   </p>
 
@@ -500,10 +500,10 @@ async function saveEdit() {
     <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
             Edit Item
           </p>
-          <h3 className="mt-2 text-2xl font-bold text-[#3D2A1E]">
+          <h3 className="mt-2 text-2xl font-bold text-[#111827]">
             {editingItem.name}
           </h3>
         </div>
@@ -525,7 +525,7 @@ async function saveEdit() {
           <input
             value={editName}
             onChange={(e) => setEditName(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
           />
         </div>
 
@@ -536,7 +536,7 @@ async function saveEdit() {
           <select
             value={editCategoryId}
             onChange={(e) => setEditCategoryId(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#14532D]"
           >
             <option value="">Uncategorized</option>
             {categories.map((category) => (
@@ -556,7 +556,7 @@ async function saveEdit() {
             onChange={(e) => setEditPrice(e.target.value)}
             type="number"
             step="0.01"
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
           />
         </div>
 
@@ -568,7 +568,7 @@ async function saveEdit() {
             value={editDescription}
             onChange={(e) => setEditDescription(e.target.value)}
             rows={4}
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
           />
         </div>
 
@@ -580,7 +580,7 @@ async function saveEdit() {
             value={editSortOrder}
             onChange={(e) => setEditSortOrder(Number(e.target.value))}
             type="number"
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
           />
         </div>
 
@@ -597,12 +597,12 @@ async function saveEdit() {
                 className="mb-3 h-40 w-full rounded-2xl object-cover"
               />
             ) : (
-              <div className="mb-3 flex h-40 w-full items-center justify-center rounded-2xl bg-[#E9D8C0] text-xs text-[#8A6A4F]">
+              <div className="mb-3 flex h-40 w-full items-center justify-center rounded-2xl bg-[#F3F4F6] text-xs text-[#6B7280]">
                 No image
               </div>
             )}
 
-            <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#C85A32] px-4 py-2 text-sm font-semibold text-white hover:bg-[#A94727]">
+            <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#14532D] px-4 py-2 text-sm font-semibold text-white hover:bg-[#166534]">
               Replace Image
               <input
                 type="file"
@@ -625,7 +625,7 @@ async function saveEdit() {
             )}
 
             {uploadingEditImage && (
-              <p className="mt-2 text-sm text-[#C85A32]">
+              <p className="mt-2 text-sm text-[#14532D]">
                 Uploading image...
               </p>
             )}
@@ -645,7 +645,7 @@ async function saveEdit() {
         <button
           type="button"
           onClick={saveEdit}
-          className="rounded-2xl bg-[#596B3F] px-5 py-3 font-semibold text-white hover:bg-[#45532F]"
+          className="rounded-2xl bg-[#16A34A] px-5 py-3 font-semibold text-white hover:bg-[#15803D]"
         >
           Save Changes
         </button>

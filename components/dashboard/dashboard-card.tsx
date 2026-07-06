@@ -12,11 +12,11 @@ export function DashboardCard({
   children,
 }: DashboardCardProps) {
   return (
-    <section className="rounded-[2rem] border border-[#E7D8C5] bg-white p-5 shadow-sm md:p-6">
+    <section className="rounded-[2rem] border border-[#E5E7EB] bg-white p-5 shadow-sm md:p-6">
       {(title || description) && (
         <div className="mb-6">
           {title && (
-            <h2 className="text-2xl font-black tracking-tight text-[#3D2A1E]">
+            <h2 className="text-2xl font-black tracking-tight text-[#111827]">
               {title}
             </h2>
           )}

@@ -242,12 +242,12 @@ is_active: payload.is_active,
         className="mb-3 h-24 w-24 rounded-2xl object-cover"
       />
     ) : (
-      <div className="mb-3 flex h-24 w-24 items-center justify-center rounded-2xl bg-[#E9D8C0] text-xs text-[#8A6A4F]">
+      <div className="mb-3 flex h-24 w-24 items-center justify-center rounded-2xl bg-[#F3F4F6] text-xs text-[#6B7280]">
         No logo
       </div>
     )}
 
-    <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#C85A32] px-4 py-2 text-sm font-semibold text-white hover:bg-[#A94727]">
+    <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#14532D] px-4 py-2 text-sm font-semibold text-white hover:bg-[#166534]">
   Upload Logo
   <input
     type="file"
@@ -261,7 +261,7 @@ is_active: payload.is_active,
     </p>
 
     {uploadingLogo && (
-      <p className="mt-2 text-sm text-[#C85A32]">Uploading logo...</p>
+      <p className="mt-2 text-sm text-[#14532D]">Uploading logo...</p>
     )}
   </div>
 </div>
@@ -279,12 +279,12 @@ is_active: payload.is_active,
         className="mb-3 h-24 w-full rounded-2xl object-cover"
       />
     ) : (
-      <div className="mb-3 flex h-24 w-full items-center justify-center rounded-2xl bg-[#E9D8C0] text-xs text-[#8A6A4F]">
+      <div className="mb-3 flex h-24 w-full items-center justify-center rounded-2xl bg-[#F3F4F6] text-xs text-[#6B7280]">
         No cover
       </div>
     )}
 
-    <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#596B3F] px-4 py-2 text-sm font-semibold text-white hover:bg-[#45532F]">
+    <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#16A34A] px-4 py-2 text-sm font-semibold text-white hover:bg-[#15803D]">
       Upload Cover Photo
       <input
         type="file"
@@ -299,7 +299,7 @@ is_active: payload.is_active,
     </p>
 
     {uploadingCover && (
-      <p className="mt-2 text-sm text-[#C85A32]">Uploading cover...</p>
+      <p className="mt-2 text-sm text-[#14532D]">Uploading cover...</p>
     )}
   </div>
 </div>
@@ -311,7 +311,7 @@ is_active: payload.is_active,
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
             placeholder="Example: Demo Business"
           />
         </div>
@@ -323,7 +323,7 @@ is_active: payload.is_active,
           <select
             value={industry}
             onChange={(e) => setIndustry(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#14532D]"
           >
             {industries.map((item) => (
               <option key={item} value={item}>
@@ -355,9 +355,28 @@ is_active: payload.is_active,
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
             placeholder="Tell customers what your business offers."
           />
+        </div>
+ <div>
+          <label className="text-sm font-medium text-stone-700">
+            Province
+          </label>
+          <select
+    value={province}
+    onChange={(e) => {
+      setProvince(e.target.value);
+      setCity("");
+    }}
+    required
+    className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#14532D]"
+  >
+    <option value="">Select Province</option>
+    {provinces.map((item) => (
+      <option key={item} value={item}>{item}</option>
+    ))}
+  </select>
         </div>
 
         <div className="md:col-span-2">
@@ -367,7 +386,7 @@ is_active: payload.is_active,
           <input
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
             placeholder="Street, barangay, landmark"
           />
         </div>
@@ -381,7 +400,7 @@ is_active: payload.is_active,
     onChange={(e)=>setCity(e.target.value)}
     disabled={!province}
     required
-    className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
+    className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#14532D]"
   >
     <option value="">Select Municipality / City</option>
     {(citiesByProvince[province as keyof typeof citiesByProvince] ?? []).map((item)=>(
@@ -390,26 +409,7 @@ is_active: payload.is_active,
   </select>
         </div>
 
-        <div>
-          <label className="text-sm font-medium text-stone-700">
-            Province
-          </label>
-          <select
-    value={province}
-    onChange={(e) => {
-      setProvince(e.target.value);
-      setCity("");
-    }}
-    required
-    className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 outline-none focus:border-[#C85A32]"
-  >
-    <option value="">Select Province</option>
-    {provinces.map((item) => (
-      <option key={item} value={item}>{item}</option>
-    ))}
-  </select>
-        </div>
-
+       
         <div className="md:col-span-2">
           <label className="text-sm font-medium text-stone-700">
             Opening hours
@@ -417,14 +417,14 @@ is_active: payload.is_active,
           <input
             value={openingHours}
             onChange={(e) => setOpeningHours(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+            className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#14532D]"
             placeholder="Open daily, 9:00 AM - 9:00 PM"
           />
         </div>
 
-        <div className="md:col-span-2 flex items-center justify-between rounded-2xl border border-[#E7D8C5] bg-[#FFF8EF] p-4">
+        <div className="md:col-span-2 flex items-center justify-between rounded-2xl border border-[#E5E7EB] bg-[#FFFFFF] p-4">
           <div>
-            <p className="font-semibold text-[#3D2A1E]">Public page status</p>
+            <p className="font-semibold text-[#111827]">Public page status</p>
             <p className="text-sm text-stone-600">
               If active, your business page can be viewed publicly.
             </p>
@@ -435,7 +435,7 @@ is_active: payload.is_active,
             onClick={() => setIsActive((current) => !current)}
             className={`rounded-full px-4 py-2 text-sm font-semibold ${
               isActive
-                ? "bg-[#596B3F] text-white"
+                ? "bg-[#16A34A] text-white"
                 : "bg-stone-200 text-stone-700"
             }`}
           >
@@ -445,7 +445,7 @@ is_active: payload.is_active,
       </div>
 
       {message && (
-        <p className="mt-5 rounded-xl bg-[#F1E5D4] px-4 py-3 text-sm text-[#5A3825]">
+        <p className="mt-5 rounded-xl bg-[#F0FDF4] px-4 py-3 text-sm text-[#111827]">
           {message}
         </p>
       )}
@@ -453,7 +453,7 @@ is_active: payload.is_active,
       <div className="mt-8 flex flex-wrap gap-3">
         <button
           disabled={loading}
-          className="rounded-2xl bg-[#C85A32] px-6 py-3 font-semibold text-white hover:bg-[#A94727] disabled:opacity-60"
+          className="rounded-2xl bg-[#14532D] px-6 py-3 font-semibold text-white hover:bg-[#166534] disabled:opacity-60"
         >
           {loading ? "Saving..." : business ? "Save Changes" : "Create Business"}
         </button>
@@ -461,7 +461,7 @@ is_active: payload.is_active,
         {business?.slug && (
           <a
             href={`/${business.slug}`}
-            className="rounded-2xl border border-[#BCA892] bg-white px-6 py-3 font-semibold text-[#5A3825] hover:bg-[#FFF8EF]"
+            className="rounded-2xl border border-[#BCA892] bg-white px-6 py-3 font-semibold text-[#111827] hover:bg-[#FFFFFF]"
           >
             View Public Page
           </a>

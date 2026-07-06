@@ -12,12 +12,12 @@ export function DashboardHeader({
   return (
     <div className="mb-6 md:mb-8">
       {eyebrow && (
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#8A6A4F] md:text-sm">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#6B7280] md:text-sm">
           {eyebrow}
         </p>
       )}
 
-      <h1 className="mt-2 text-3xl font-black tracking-tight text-[#3D2A1E] md:text-4xl">
+      <h1 className="mt-2 text-3xl font-black tracking-tight text-[#111827] md:text-4xl">
         {title}
       </h1>
 

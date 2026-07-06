@@ -51,8 +51,8 @@ export function PublicItemCard({
             className="h-44 w-full object-cover"
           />
         ) : (
-          <div className="flex h-44 items-center justify-center bg-[#E9D8C0]">
-            <span className="text-sm font-medium text-[#8A6A4F]">
+          <div className="flex h-44 items-center justify-center bg-[#F3F4F6]">
+            <span className="text-sm font-medium text-[#6B7280]">
               No image yet
             </span>
           </div>
@@ -60,10 +60,10 @@ export function PublicItemCard({
 
         <div className="p-5">
           <div className="flex items-start justify-between gap-4">
-            <h4 className="text-lg font-bold text-[#3D2A1E]">{item.name}</h4>
+            <h4 className="text-lg font-bold text-[#111827]">{item.name}</h4>
 
             {item.price !== null && (
-              <p className="shrink-0 rounded-full bg-[#F1E5D4] px-3 py-1 text-sm font-bold text-[#596B3F]">
+              <p className="shrink-0 rounded-full bg-[#F0FDF4] px-3 py-1 text-sm font-bold text-[#16A34A]">
                 ₱{Number(item.price).toFixed(2)}
               </p>
             )}
@@ -78,7 +78,7 @@ export function PublicItemCard({
           {options.length > 0 ? (
             <button
               onClick={() => setOpen(true)}
-              className="mt-5 w-full rounded-2xl bg-[#C85A32] px-4 py-3 text-sm font-semibold text-white hover:bg-[#A94727]"
+              className="mt-5 w-full rounded-2xl bg-[#14532D] px-4 py-3 text-sm font-semibold text-white hover:bg-[#166534]"
             >
               Inquire
             </button>
@@ -98,10 +98,10 @@ export function PublicItemCard({
           <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
                   Choose Contact Option
                 </p>
-                <h3 className="mt-2 text-2xl font-bold text-[#3D2A1E]">
+                <h3 className="mt-2 text-2xl font-bold text-[#111827]">
                   Inquire about {item.name}
                 </h3>
                 <p className="mt-2 text-sm text-stone-600">
@@ -124,9 +124,9 @@ export function PublicItemCard({
   href={link.url}
   target="_blank"
   rel="noreferrer"
-  className="inline-flex items-center gap-3 rounded-2xl border border-[#E2D4C2] bg-[#FFF8EF] px-4 py-3 font-semibold text-[#5A3825] hover:bg-[#F1E5D4]"
+  className="inline-flex items-center gap-3 rounded-2xl border border-[#E2D4C2] bg-[#FFFFFF] px-4 py-3 font-semibold text-[#111827] hover:bg-[#F0FDF4]"
 >
-  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#C85A32]">
+  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#14532D]">
     <LinkIcon type={link.type} className="h-4 w-4" />
   </span>
   <span>{link.label}</span>

@@ -65,12 +65,12 @@ export function DashboardShell({
     useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F7F1E8]">
+    <div className="min-h-screen bg-[#FAF7F2]">
       {/* MOBILE HEADER */}
-      <header className="sticky top-0 z-50 border-b border-[#E7D8C5] bg-white/90 backdrop-blur-xl lg:hidden">
+      <header className="sticky top-0 z-50 border-b border-[#E5E7EB] bg-white/90 backdrop-blur-xl lg:hidden">
         <div className="flex items-center justify-between px-4 py-4">
           <div>
-            <p className="text-xl font-black text-[#3D2A1E]">
+            <p className="text-xl font-black text-[#111827]">
               Listahan
             </p>
 
@@ -83,7 +83,7 @@ export function DashboardShell({
             onClick={() =>
               setMobileOpen(!mobileOpen)
             }
-            className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#E7D8C5] bg-white"
+            className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#E5E7EB] bg-white"
           >
             {mobileOpen ? (
               <X className="h-5 w-5" />
@@ -97,7 +97,7 @@ export function DashboardShell({
       <div className="mx-auto flex max-w-7xl">
         {/* SIDEBAR */}
         <aside
-          className={`fixed inset-y-0 left-0 z-50 w-[280px] border-r border-[#E7D8C5] bg-white transition-transform duration-300 lg:sticky lg:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 z-50 w-[280px] border-r border-[#E5E7EB] bg-white transition-transform duration-300 lg:sticky lg:translate-x-0 ${
             mobileOpen
               ? "translate-x-0"
               : "-translate-x-full"
@@ -106,7 +106,7 @@ export function DashboardShell({
           <div className="flex h-full flex-col">
             {/* BRAND */}
             <div className="border-b border-[#EFE3D4] px-6 py-7">
-              <p className="text-2xl font-black text-[#3D2A1E]">
+              <p className="text-2xl font-black text-[#111827]">
                 Listahan
               </p>
 
@@ -127,7 +127,7 @@ export function DashboardShell({
                     onClick={() =>
                       setMobileOpen(false)
                     }
-                    className="flex items-center gap-3 rounded-2xl px-4 py-4 text-sm font-semibold text-stone-700 transition-all hover:bg-[#F8F4EC]"
+                    className="flex items-center gap-3 rounded-2xl px-4 py-4 text-sm font-semibold text-stone-700 transition-all hover:bg-[#F9FAFB]"
                   >
                     <Icon className="h-5 w-5" />
 

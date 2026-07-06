@@ -1,210 +1,147 @@
-import Link from "next/link";
-
-import {
-  Search,
-  MapPin,
-  Star,
-} from "lucide-react";
-
 import { createClient } from "@/lib/supabase/server";
 
-export const dynamic =
-  "force-dynamic";
+import { PublicLayout } from "@/components/layout/public-layout";
 
-export default async function BusinessesPage() {
-  const supabase =
-    await createClient();
+import { HeroBanner } from "@/components/hero/hero-banner";
+import { CategoryGrid } from "@/components/categories/category-grid";
+import { BusinessCard } from "@/components/business/business-card";
+import { Section } from "@/components/ui/section";
+import Link from "next/link";
+import {
+  CalendarDays,
+  HeartHandshake,
+  MapPin,
+  MessageCircle,
+  Sparkles,
+} from "lucide-react";
 
-  const { data: businesses } =
-    await supabase
-      .from("businesses")
-      .select("*")
-      .eq("is_active", true)
-      .order("created_at", {
-        ascending: false,
-      });
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const supabase = await createClient();
+
+  const { data: businesses } = await supabase
+    .from("businesses")
+    .select("*")
+    .eq("is_active", true)
+    .order("created_at", {
+      ascending: false,
+    });
 
   return (
-    <main className="min-h-screen bg-[#F7F1E8]">
-      {/* HERO */}
+    <PublicLayout>
+      <div>
 
-      <section className="border-b border-[#E7D8C5] bg-gradient-to-b from-[#FFFDF9] to-[#F7F1E8]">
-        <div className="mx-auto max-w-7xl px-6 py-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#8A6A4F]">
-            Directory
-          </p>
+        <HeroBanner />
 
-          <h1 className="mt-3 text-4xl font-black tracking-tight text-[#3D2A1E] md:text-6xl">
-            Discover Local
-            Businesses
-          </h1>
+        <CategoryGrid />
 
-          <p className="mt-4 max-w-2xl text-stone-600">
-            Explore restaurants,
-            clinics, stores,
-            professionals, and
-            local services across
-            Oriental Mindoro.
-          </p>
-
-          {/* SEARCH UI */}
-
-          <div className="mt-8 flex flex-col gap-4 md:flex-row">
-            <div className="flex flex-1 items-center rounded-2xl border border-[#E7D8C5] bg-white px-4 py-4 shadow-sm">
-              <Search className="mr-3 h-5 w-5 text-stone-400" />
-
-              <input
-                placeholder="Search businesses..."
-                disabled
-                className="w-full bg-transparent outline-none"
-              />
-            </div>
-
-            <button className="rounded-2xl bg-[#596B3F] px-8 py-4 font-bold text-white">
-              Search
-            </button>
+        <Section
+          title="Featured Businesses"
+          subtitle="Polished storefronts and local favorites worth checking out first."
+        >
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {(businesses ?? [])
+              .slice(0, 3)
+              .map((business) => (
+                <BusinessCard
+                  key={business.id}
+                  business={business}
+                />
+              ))}
           </div>
+        </Section>
 
-          {/* INDUSTRY CHIPS */}
+        <Section
+          title="Nearby in Mindoro"
+          subtitle="Fresh listings from across Oriental and Occidental Mindoro."
+        >
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {(businesses ?? []).slice(0, 6).map((business) => (
+              <BusinessCard
+                key={business.id}
+                business={business}
+              />
+            ))}
+          </div>
+        </Section>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+        <Section
+          title="Events and Community"
+          subtitle="A simple pulse for what locals can discover next."
+        >
+          <div className="grid gap-5 md:grid-cols-3">
             {[
-              "All",
-              "Restaurant",
-              "Clinic",
-              "Retail",
-              "Services",
-            ].map((chip) => (
-              <button
-                key={chip}
-                className="rounded-full border border-[#E7D8C5] bg-white px-5 py-2 text-sm font-semibold text-[#3D2A1E]"
+              {
+                title: "Weekend finds",
+                text: "Restaurants, cafes, and resorts locals are searching for.",
+                icon: CalendarDays,
+              },
+              {
+                title: "Local buzz",
+                text: "Fresh businesses, services, and community picks in one feed.",
+                icon: MessageCircle,
+              },
+              {
+                title: "Support local",
+                text: "Discover small businesses and help Mindoro entrepreneurs grow.",
+                icon: HeartHandshake,
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.title}
+                  className="rounded-[1.5rem] bg-white p-6 shadow-[0_18px_50px_-34px_rgba(17,24,39,0.45)]"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-[#14532D]">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-5 text-xl font-black text-[#111827]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-[#6B7280]">
+                    {item.text}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+
+        <Section
+          title="Recommended for You"
+          subtitle={`${businesses?.length ?? 0} businesses available on MyNegosyo Mindoro.`}
+        >
+          <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="rounded-[1.5rem] bg-[#14532D] p-7 text-white shadow-[0_30px_80px_-42px_rgba(20,83,45,0.95)]">
+              <Sparkles className="h-8 w-8 text-[#86EFAC]" />
+              <h3 className="mt-5 text-3xl font-black tracking-tight">
+                Explore the local map of Mindoro.
+              </h3>
+              <p className="mt-4 text-sm leading-7 text-white/75">
+                Browse by city, service, category, or mood. Every visit helps a
+                local entrepreneur become easier to find.
+              </p>
+              <Link
+                href="/discover"
+                className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-3 text-sm font-black text-[#14532D]"
               >
-                {chip}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURED */}
-
-      <section className="mx-auto max-w-7xl px-6 pt-10">
-        <div className="mb-6 flex items-center gap-3">
-          <Star className="h-5 w-5 text-amber-500" />
-
-          <h2 className="text-2xl font-black text-[#3D2A1E]">
-            Featured Businesses
-          </h2>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {(businesses || [])
-            .slice(0, 3)
-            .map((business) => (
-              <BusinessCard
-                key={business.id}
-                business={business}
-                featured
-              />
-            ))}
-        </div>
-      </section>
-
-      {/* ALL BUSINESSES */}
-
-      <section className="mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-8">
-          <h2 className="text-3xl font-black text-[#3D2A1E]">
-            All Businesses
-          </h2>
-
-          <p className="mt-2 text-stone-600">
-            {businesses?.length ||
-              0}{" "}
-            businesses found
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {(businesses || []).map(
-            (business) => (
-              <BusinessCard
-                key={business.id}
-                business={business}
-              />
-            )
-          )}
-        </div>
-      </section>
-    </main>
-  );
-}
-
-function BusinessCard({
-  business,
-  featured = false,
-}: {
-  business: any;
-  featured?: boolean;
-}) {
-  return (
-    <Link
-      href={`/${business.slug}`}
-      className="overflow-hidden rounded-[2rem] border border-[#E7D8C5] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-    >
-      <div className="relative h-48 bg-[#EFE3D3]">
-        {business.cover_url ? (
-          <img
-            src={business.cover_url}
-            alt={business.name}
-            className="h-full w-full object-cover"
-          />
-        ) : null}
-
-        {featured && (
-          <div className="absolute left-4 top-4 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white">
-            Featured
-          </div>
-        )}
-      </div>
-
-      <div className="p-5">
-        <div className="flex items-center gap-4">
-          {business.logo_url ? (
-            <img
-              src={business.logo_url}
-              alt={business.name}
-              className="h-14 w-14 rounded-2xl object-cover"
-            />
-          ) : (
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E7D8C5] font-black text-[#3D2A1E]">
-              {business.name[0]}
+                <MapPin className="mr-2 h-4 w-4" />
+                Open Discover
+              </Link>
             </div>
-          )}
 
-          <div>
-            <h3 className="font-black text-[#3D2A1E]">
-              {business.name}
-            </h3>
-
-            <p className="text-sm text-stone-500">
-              {business.industry}
-            </p>
+            <div className="grid gap-6 md:grid-cols-2">
+              {(businesses ?? []).slice(3, 7).map((business) => (
+                <BusinessCard key={business.id} business={business} />
+              ))}
+            </div>
           </div>
-        </div>
+        </Section>
 
-        <div className="mt-4 flex items-center gap-2 text-sm text-stone-500">
-          <MapPin className="h-4 w-4" />
-
-          <span>
-            {business.city}
-          </span>
-        </div>
-
-        <p className="mt-4 line-clamp-2 text-sm text-stone-600">
-          {business.description}
-        </p>
       </div>
-    </Link>
+    </PublicLayout>
   );
 }

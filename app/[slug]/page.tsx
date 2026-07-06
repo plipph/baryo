@@ -46,11 +46,11 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${business.name} | Listahan`;
+  const title = `${business.name} | MyNegosyo Mindoro`;
 
   const description =
     business.description ||
-    `Explore ${business.name} on Listahan.`;
+    `Explore ${business.name} on MyNegosyo Mindoro.`;
 
   const image =
     business.cover_url ||
@@ -152,7 +152,7 @@ export default async function PublicBusinessPage({
   /* THEME ENGINE */
 
   const accentColor =
-    appearance?.accent_color || "#C85A32";
+    appearance?.accent_color || "#14532D";
 
   const buttonStyle =
     appearance?.button_style || "rounded";
@@ -172,7 +172,7 @@ export default async function PublicBusinessPage({
       ? "bg-[#111827] text-white"
       : theme === "minimal"
       ? "bg-white text-stone-900"
-      : "bg-[#F6F1E8] text-stone-900";
+      : "bg-[#FAF7F2] text-stone-900";
 
   const primaryLinks =
     links?.filter(
@@ -223,7 +223,7 @@ export default async function PublicBusinessPage({
                     className="h-24 w-24 rounded-[2rem] border-4 border-white bg-white object-cover shadow-2xl md:h-40 md:w-40"
                   />
                 ) : (
-                  <div className="flex h-24 w-24 items-center justify-center rounded-[2rem] border-4 border-white bg-[#E7D8C5] text-4xl font-black text-[#5A3825] shadow-2xl md:h-40 md:w-40">
+                  <div className="flex h-24 w-24 items-center justify-center rounded-[2rem] border-4 border-white bg-[#F3F4F6] text-4xl font-black text-[#14532D] shadow-2xl md:h-40 md:w-40">
                     {business.name.charAt(0)}
                   </div>
                 )}

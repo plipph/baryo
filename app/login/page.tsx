@@ -84,10 +84,13 @@ const supabase = createClient();
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#F7F1E8] px-6">
-      <div className="w-full max-w-md rounded-3xl border border-[#E2D4C2] bg-white/80 p-8 shadow-xl">
+    <main className="flex min-h-screen items-center justify-center bg-[#FAF7F2] px-6 py-10">
+      <div className="w-full max-w-md rounded-[1.75rem] bg-white p-8 shadow-[0_30px_80px_-45px_rgba(17,24,39,0.7)]">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-[#3D2A1E]">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#16A34A]">
+            MyNegosyo Mindoro
+          </p>
+          <h1 className="mt-3 text-3xl font-black tracking-tight text-[#111827]">
             Welcome back
           </h1>
 
@@ -117,7 +120,7 @@ const supabase = createClient();
               }
               required
               type="email"
-              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+              className="mt-1 min-h-12 w-full rounded-2xl border border-[#E5E7EB] px-4 py-3 outline-none transition focus:border-[#16A34A] focus:ring-4 focus:ring-green-100"
               placeholder="you@example.com"
             />
           </div>
@@ -136,7 +139,7 @@ const supabase = createClient();
               }
               required
               type="password"
-              className="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 outline-none focus:border-[#C85A32]"
+              className="mt-1 min-h-12 w-full rounded-2xl border border-[#E5E7EB] px-4 py-3 outline-none transition focus:border-[#16A34A] focus:ring-4 focus:ring-green-100"
               placeholder="Your password"
             />
           </div>
@@ -149,7 +152,7 @@ const supabase = createClient();
 
           <button
             disabled={loading}
-            className="w-full rounded-xl bg-[#596B3F] px-4 py-3 font-semibold text-white hover:bg-[#45532F] disabled:opacity-60"
+            className="w-full rounded-full bg-[#14532D] px-4 py-3 font-bold text-white shadow-[0_16px_32px_-22px_rgba(20,83,45,0.9)] transition hover:bg-[#166534] disabled:opacity-60"
           >
             {loading
               ? "Logging in..."
@@ -161,7 +164,7 @@ const supabase = createClient();
           No account yet?{" "}
           <Link
             href="/register"
-            className="font-semibold text-[#C85A32]"
+            className="font-semibold text-[#14532D]"
           >
             Create one
           </Link>

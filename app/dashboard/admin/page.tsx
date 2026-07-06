@@ -86,15 +86,15 @@ if (
 
  const { data: businesses } = await adminSupabase .from("businesses") .select("*") .order("created_at", { ascending: false, }) .limit(20);
   return (
-    <main className="min-h-screen bg-[#F7F1E8] px-6 py-8">
+    <main className="min-h-screen bg-[#FAF7F2] px-6 py-8">
       <div className="mx-auto max-w-7xl">
         {/* HEADER */}
         <div className="mb-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#8A6A4F]">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#6B7280]">
             Founder Dashboard
           </p>
 
-          <h1 className="mt-2 text-4xl font-black tracking-tight text-[#3D2A1E]">
+          <h1 className="mt-2 text-4xl font-black tracking-tight text-[#111827]">
             MyNegosyo Mindoro - Admin Dashboard
           </h1>
 
@@ -138,10 +138,10 @@ if (
         </div>
 
         {/* BUSINESSES */}
-        <section className="mt-8 rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
+        <section className="mt-8 rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-2xl font-black tracking-tight text-[#3D2A1E]">
+              <h2 className="text-2xl font-black tracking-tight text-[#111827]">
                 Businesses
               </h2>
 
@@ -151,7 +151,7 @@ if (
               </p>
             </div>
 
-            <div className="rounded-full bg-[#F1E5D4] px-4 py-2 text-sm font-semibold text-[#5A3825]">
+            <div className="rounded-full bg-[#F0FDF4] px-4 py-2 text-sm font-semibold text-[#111827]">
               {businesses?.length || 0}{" "}
               stores loaded
             </div>
@@ -178,10 +178,10 @@ if (
                       key={
                         business.id
                       }
-                      className="bg-[#FFF8EF]"
+                      className="bg-[#FFFFFF]"
                     >
                       {/* NAME */}
-                      <td className="rounded-l-2xl px-4 py-4 font-semibold text-[#3D2A1E]">
+                      <td className="rounded-l-2xl px-4 py-4 font-semibold text-[#111827]">
                         {
                           business.name
                         }
@@ -241,7 +241,7 @@ if (
                           </a>
 
                   
-<form action={toggleBusinessStatus}> <input type="hidden" name="businessId" value={business.id} /> <input type="hidden" name="currentStatus" value={ business.is_active ? "true" : "false" } /> <button type="submit" className={`rounded-xl px-3 py-2 text-sm font-semibold text-white ${ business.is_active ? "bg-red-500 hover:bg-red-600" : "bg-[#596B3F] hover:bg-[#45532F]" }`} > {business.is_active ? "Disable" : "Enable"} </button> </form>
+<form action={toggleBusinessStatus}> <input type="hidden" name="businessId" value={business.id} /> <input type="hidden" name="currentStatus" value={ business.is_active ? "true" : "false" } /> <button type="submit" className={`rounded-xl px-3 py-2 text-sm font-semibold text-white ${ business.is_active ? "bg-red-500 hover:bg-red-600" : "bg-[#16A34A] hover:bg-[#15803D]" }`} > {business.is_active ? "Disable" : "Enable"} </button> </form>
 
                         </div>
                       </td>
@@ -265,12 +265,12 @@ function MetricCard({
   value: number;
 }) {
   return (
-    <div className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#8A6A4F]">
+    <div className="rounded-[2rem] border border-[#E5E7EB] bg-white p-6 shadow-sm">
+      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
         {label}
       </p>
 
-      <h2 className="mt-4 text-5xl font-black tracking-tight text-[#3D2A1E]">
+      <h2 className="mt-4 text-5xl font-black tracking-tight text-[#111827]">
         {value}
       </h2>
     </div>
