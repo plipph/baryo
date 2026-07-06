@@ -590,9 +590,6 @@ const linkLimitReached =
         }
         className="rounded-[2rem] border border-[#E7D8C5] bg-white p-6 shadow-sm"
       >
-        <h2 className="text-2xl font-black tracking-tight text-[#3D2A1E]">
-          Add Contact Link
-        </h2>
 
      <h2 className="text-2xl font-black tracking-tight text-[#3D2A1E]">
   Add Contact Link
