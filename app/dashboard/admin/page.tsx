@@ -89,7 +89,7 @@ export default async function AdminDashboardPage() {
           </p>
 
           <h1 className="mt-2 text-4xl font-black tracking-tight text-[#3D2A1E]">
-            Listahan Admin
+            MyNegosyo Mindoro - Admin Dashboard
           </h1>
 
           <p className="mt-3 text-stone-600">
