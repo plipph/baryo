@@ -48,19 +48,26 @@ export async function toggleBusinessStatus(
 
   /*
     ADMIN CHECK
+    User must have role = "admin"
+    in the profiles table.
   */
 
-  const adminEmails = [
-    "kgcomia@gmail.com",
-  ];
+  const {
+    data: profile,
+    error: profileError,
+  } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
 
-  const isAdmin =
-    user.email &&
-    adminEmails.includes(
-      user.email
+  if (profileError) {
+    throw new Error(
+      "Unable to verify permissions"
     );
+  }
 
-  if (!isAdmin) {
+  if (profile?.role !== "admin") {
     throw new Error(
       "Forbidden"
     );
@@ -101,4 +108,3 @@ export async function toggleBusinessStatus(
 
   return;
 }
-
