@@ -20,19 +20,25 @@ export default async function AdminDashboardPage() {
     redirect("/login");
   }
 
-  const adminEmails = [
-    "kgcomia@gmail.com",
-  ];
+ /*
+  ADMIN CHECK
+*/
 
-  const isAdmin =
-    user.email &&
-    adminEmails.includes(
-      user.email
-    );
+const {
+  data: profile,
+  error: profileError,
+} = await supabase
+  .from("profiles")
+  .select("role")
+  .eq("id", user.id)
+  .single();
 
-  if (!isAdmin) {
-    redirect("/dashboard");
-  }
+if (
+  profileError ||
+  profile?.role !== "admin"
+) {
+  redirect("/dashboard");
+}
 
   /*
     METRICS
