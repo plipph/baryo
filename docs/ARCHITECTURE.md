@@ -22,7 +22,7 @@ flowchart TD
   Storefront --> TrackItem["/api/track-item"]
 ```
 
-The dashboard has routes for business, categories, items, links, appearance, analytics, and admin. Navigation also references `/dashboard/settings`, but that route does not currently exist.
+The dashboard has routes for business, categories, items, links, appearance, analytics, and admin. `/account` is the authenticated profile-first destination for users without a business, and `/account/settings` is its current non-editing settings route. `/dashboard` preserves the owner dashboard and redirects authenticated users without a business to `/account`.
 
 ### Target Architecture
 
@@ -36,7 +36,7 @@ Keep existing public and dashboard routes stable. Introduce new account/profile 
 
 ### Current Implementation
 
-Registration creates a Supabase Auth user with the submitted full name in Auth metadata. The codebase now includes a Phase 1 profile-foundation migration that, once applied, provisions a corresponding `profiles` record through an Auth database trigger and backfills Auth users missing a Profile. The legacy `owner` role remains unchanged in this phase because existing dashboard workflows are business-focused. Email/password login creates a browser session; middleware refreshes it. Dashboard pages query the user server-side and redirect unauthenticated visitors to `/login`.
+Registration creates a Supabase Auth user with the submitted full name in Auth metadata, then sends the new user to `/account` rather than assuming dashboard ownership. The codebase includes a Phase 1 profile-foundation migration that, once applied, provisions a corresponding `profiles` record through an Auth database trigger and backfills Auth users missing a Profile. Login continues to enter through `/dashboard`; that route preserves owner behavior and redirects users without a business to `/account`. The legacy `owner` role remains unchanged in this phase because existing dashboard workflows are business-focused. Email/password login creates a browser session; middleware refreshes it.
 
 ```mermaid
 flowchart TD
@@ -125,7 +125,7 @@ Preserve the `/{slug}` route and active/visible safeguards. Add geographic data 
 
 ### Current Implementation
 
-The dashboard uses `app/dashboard/layout.tsx` with a desktop sidebar and client-side mobile drawer. Overview presents setup progress. Management screens use browser Supabase clients for interactive CRUD; analytics aggregates business visits, link clicks, and item clicks. The service-role client is used server-side for analytics inserts and the admin-validated business-status update.
+The dashboard uses `app/dashboard/layout.tsx` with a desktop sidebar and client-side mobile drawer. Overview presents setup progress. Management screens use browser Supabase clients for interactive CRUD; analytics aggregates business visits, link clicks, and item clicks. The service-role client is used server-side for analytics inserts and the admin-validated business-status update. Owner navigation retains business management and adds Profile/Settings links; non-owner account navigation shows Profile, Settings, and Register Business only.
 
 ```mermaid
 flowchart TD
@@ -150,7 +150,7 @@ Introduce selected-business and membership context only when the membership mode
 
 `lib/supabase/server.ts` creates a cookie-aware server client; `client.ts` creates a browser client; `middleware.ts` refreshes sessions. `admin.ts` holds a service-role client for server-only use. `lib/upload.ts` validates JPEG/PNG/WebP images up to 5 MB, uploads to a caller-specified Storage bucket, and returns a public URL.
 
-The repository has an empty `schema.sql` and no tracked `supabase/migrations/`; live Supabase remains the schema authority. Application code assumes RLS protects normal owner writes, but policies are not versioned here.
+The repository has an empty `schema.sql` and a tracked Phase 1 profile-foundation migration. Live Supabase remains the schema authority until that migration is applied. Application code assumes RLS protects normal owner writes, but policies are not yet versioned here.
 
 ### Target Architecture
 

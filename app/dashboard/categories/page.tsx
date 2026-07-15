@@ -29,7 +29,7 @@ export default async function CategoriesPage() {
     .maybeSingle();
 
   if (!business) {
-    redirect("/dashboard/business");
+    redirect("/account");
   }
 
   const { data: categories } = await supabase

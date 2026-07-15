@@ -2,7 +2,7 @@
 
 ## Source of truth and confidence
 
-The application uses Supabase Postgres, but this repository contains no database schema or migrations: `schema.sql` is empty and `supabase/` contains only CLI metadata. This document records tables and fields observed in application queries/mutations. It does not claim unobserved types, defaults, constraints, RLS policies, triggers, or indexes as fact.
+The application uses Supabase Postgres. `schema.sql` remains empty, but the repository now tracks the Phase 1 profile-foundation migration; the wider live schema, historical migrations, and policies are still not versioned here. This document records tables and fields observed in application queries/mutations. It does not claim unobserved types, defaults, constraints, RLS policies, triggers, or indexes as fact.
 
 The live Supabase project remains the operational schema authority until migrations are committed.
 

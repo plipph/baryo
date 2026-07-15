@@ -67,7 +67,7 @@ export default async function AnalyticsPage() {
     .maybeSingle();
 
   if (!business) {
-    redirect("/dashboard/business");
+    redirect("/account");
   }
 
   /*

@@ -38,7 +38,7 @@ export default function RegisterPage() {
     }
 
     setLoading(false);
-    router.push("/dashboard");
+    router.push("/account");
     router.refresh();
   }
 

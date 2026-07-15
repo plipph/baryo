@@ -29,7 +29,7 @@ export default async function LinksPage() {
     .maybeSingle();
 
   if (!business) {
-    redirect("/dashboard/business");
+    redirect("/account");
   }
 
   const { data: links } = await supabase

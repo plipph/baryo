@@ -28,7 +28,7 @@ export default async function AppearancePage() {
     .maybeSingle();
 
   if (!business) {
-    redirect("/dashboard/business");
+    redirect("/account");
   }
 
   const { data: appearance } = await supabase

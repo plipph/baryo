@@ -14,19 +14,22 @@ import {
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
+import { getAccountContext } from "@/lib/account-context";
 
 import { LogoutButton } from "@/components/logout-button";
 
 export default async function DashboardPage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, business: accountBusiness } = await getAccountContext();
 
   if (!user) {
     redirect("/login");
   }
+
+  if (!accountBusiness) {
+    redirect("/account");
+  }
+
+  const supabase = await createClient();
 
   const { data: profile } =
     await supabase
@@ -39,11 +42,7 @@ export default async function DashboardPage() {
     await supabase
       .from("businesses")
       .select("*")
-      .eq("owner_id", user.id)
-      .order("created_at", {
-        ascending: false,
-      })
-      .limit(1)
+      .eq("id", accountBusiness.id)
       .maybeSingle();
 
   const businessId =

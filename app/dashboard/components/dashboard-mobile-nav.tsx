@@ -16,11 +16,16 @@ import {
   Palette,
   Settings,
   ChartBar,
+  CircleUserRound,
 } from "lucide-react";
 
 import { useState } from "react";
 
-const navigation = [
+type DashboardMobileNavProps = {
+  hasBusiness: boolean;
+};
+
+const businessNavigation = [
   {
     label: "Overview",
     href: "/dashboard",
@@ -57,15 +62,40 @@ const navigation = [
     icon: ChartBar,
   },
   {
+    label: "Profile",
+    href: "/account",
+    icon: CircleUserRound,
+  },
+  {
     label: "Settings",
-    href: "/dashboard/settings",
+    href: "/account/settings",
     icon: Settings,
   },
 ];
 
-export function DashboardMobileNav() {
+const accountNavigation = [
+  {
+    label: "Profile",
+    href: "/account",
+    icon: CircleUserRound,
+  },
+  {
+    label: "Settings",
+    href: "/account/settings",
+    icon: Settings,
+  },
+  {
+    label: "Register Business",
+    href: "/dashboard/business",
+    icon: Building2,
+  },
+];
+
+export function DashboardMobileNav({ hasBusiness }: DashboardMobileNavProps) {
   const pathname =
     usePathname();
+
+  const navigation = hasBusiness ? businessNavigation : accountNavigation;
 
   const [open, setOpen] =
     useState(false);
@@ -80,7 +110,7 @@ export function DashboardMobileNav() {
           </p>
 
           <h1 className="text-lg font-black text-[#111827]">
-            Dashboard
+            {hasBusiness ? "Dashboard" : "Account"}
           </h1>
         </div>
 
@@ -107,7 +137,7 @@ export function DashboardMobileNav() {
                 </p>
 
                 <h2 className="mt-1 text-2xl font-black text-[#111827]">
-                  Business Hub
+                  {hasBusiness ? "Business Hub" : "MyNegosyo"}
                 </h2>
               </div>
 
@@ -171,6 +201,7 @@ export function DashboardMobileNav() {
             </nav>
 
             {/* FOOTER */}
+            {hasBusiness && (
             <div className="border-t border-[#E5E7EB] p-4">
               <div className="rounded-2xl bg-[#F0FDF4] p-4 ring-1 ring-green-100">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#14532D]">
@@ -187,6 +218,7 @@ export function DashboardMobileNav() {
                 </p>
               </div>
             </div>
+            )}
           </div>
         </div>
       )}

@@ -11,9 +11,14 @@ import {
   Palette,
   Settings,
   ChartBar,
+  CircleUserRound,
 } from "lucide-react";
 
-const navigation = [
+type DashboardSidebarProps = {
+  hasBusiness: boolean;
+};
+
+const businessNavigation = [
   {
     label: "Overview",
     href: "/dashboard",
@@ -51,14 +56,38 @@ const navigation = [
   icon: ChartBar,
 },
   {
+    label: "Profile",
+    href: "/account",
+    icon: CircleUserRound,
+  },
+  {
     label: "Settings",
-    href: "/dashboard/settings",
+    href: "/account/settings",
     icon: Settings,
   },
 ];
 
-export function DashboardSidebar() {
+const accountNavigation = [
+  {
+    label: "Profile",
+    href: "/account",
+    icon: CircleUserRound,
+  },
+  {
+    label: "Settings",
+    href: "/account/settings",
+    icon: Settings,
+  },
+  {
+    label: "Register Business",
+    href: "/dashboard/business",
+    icon: Building2,
+  },
+];
+
+export function DashboardSidebar({ hasBusiness }: DashboardSidebarProps) {
   const pathname = usePathname();
+  const navigation = hasBusiness ? businessNavigation : accountNavigation;
 
   return (
     <aside className="hidden h-screen w-72 shrink-0 border-r border-[#E5E7EB]/80 bg-white/90 backdrop-blur-xl lg:flex lg:flex-col">
@@ -70,11 +99,13 @@ export function DashboardSidebar() {
             </p>
 
             <h1 className="mt-2 text-2xl font-black tracking-tight text-[#111827]">
-              Business Hub
+              {hasBusiness ? "Business Hub" : "MyNegosyo"}
             </h1>
 
             <p className="mt-2 text-sm text-[#6B7280]">
-              Manage your local storefront
+              {hasBusiness
+                ? "Manage your local storefront"
+                : "Your local account"}
             </p>
           </div>
         </Link>
@@ -107,6 +138,7 @@ export function DashboardSidebar() {
         })}
       </nav>
 
+      {hasBusiness && (
       <div className="border-t border-[#E5E7EB]/80 p-4">
         <div className="rounded-2xl bg-[#F0FDF4] p-4 ring-1 ring-green-100">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#14532D]">
@@ -122,6 +154,7 @@ export function DashboardSidebar() {
           </p>
         </div>
       </div>
+      )}
     </aside>
   );
 }
