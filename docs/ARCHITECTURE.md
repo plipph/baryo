@@ -22,7 +22,7 @@ flowchart TD
   Storefront --> TrackItem["/api/track-item"]
 ```
 
-The dashboard has routes for business, categories, items, links, appearance, analytics, and admin. `/account` is the authenticated profile-first destination for users without a business, and `/account/settings` is its current non-editing settings route. `/dashboard` preserves the owner dashboard and redirects authenticated users without a business to `/account`.
+The dashboard has routes for business, categories, items, links, appearance, analytics, and admin. `/profile` and `/settings` are authenticated Profile routes; `/account` and `/account/settings` remain compatibility redirects. `/dashboard` preserves the owner dashboard and redirects authenticated users without a business to `/account`, which continues to `/profile`.
 
 ### Target Architecture
 
@@ -36,7 +36,7 @@ Keep existing public and dashboard routes stable. Introduce new account/profile 
 
 ### Current Implementation
 
-Registration creates a Supabase Auth user with the submitted full name in Auth metadata, then sends the new user to `/account` rather than assuming dashboard ownership. The codebase includes a Phase 1 profile-foundation migration that, once applied, provisions a corresponding `profiles` record through an Auth database trigger and backfills Auth users missing a Profile. Login continues to enter through `/dashboard`; that route preserves owner behavior and redirects users without a business to `/account`. The legacy `owner` role remains unchanged in this phase because existing dashboard workflows are business-focused. Email/password login creates a browser session; middleware refreshes it.
+Registration creates a Supabase Auth user with the submitted full name in Auth metadata, then sends the new user to `/account` rather than assuming dashboard ownership. The codebase includes a Phase 1 profile-foundation migration that, once applied, provisions a corresponding `profiles` record through an Auth database trigger and backfills Auth users missing a Profile. Phase 3 adds Profile display/editing routes for name, city, province, and bio; email remains read-only. Login continues to enter through `/dashboard`; that route preserves owner behavior and redirects users without a business to `/account`. The legacy `owner` role remains unchanged in this phase because existing dashboard workflows are business-focused. Email/password login creates a browser session; middleware refreshes it.
 
 ```mermaid
 flowchart TD

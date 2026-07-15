@@ -10,7 +10,7 @@ The live Supabase project remains the operational schema authority until migrati
 
 | Table | Purpose | Fields observed in application code |
 | --- | --- | --- |
-| `profiles` | Extends Supabase Auth users with app identity and role. Phase 1 provisions one row for each Auth user through an Auth trigger. | `id`, `email`, `full_name`, `role` |
+| `profiles` | Extends Supabase Auth users with app identity and role. Phase 1 provisions one row for each Auth user through an Auth trigger; Phase 3 adds Profile experience fields. | `id`, `email`, `full_name`, `role`, `avatar_url`, `city`, `province`, `bio` |
 | `businesses` | Owner-created public business/storefront profile. | `id`, `owner_id`, `slug`, `name`, `description`, `industry`, `city`, `province`, `logo_url`, `cover_url`, `opening_hours`, `is_active`, `created_at`, `plan` |
 | `categories` | Groups a business's items. | `id`, `business_id`, `name`, `sort_order`, `is_visible` |
 | `items` | Products or services shown on a storefront. | `id`, `business_id`, `category_id`, `name`, `description`, `price`, `image_url`, `sort_order`, `is_visible` |
@@ -50,6 +50,8 @@ Actual RLS enablement and policies are not present in the repository and must be
 ## Triggers
 
 The Phase 1 migration `20260715000000_profile_foundation.sql` tracks `public.handle_new_user()` and the `on_auth_user_created` trigger on `auth.users`. When applied, it creates a Profile after an Auth user is inserted and uses `on conflict (id) do nothing` so retries do not duplicate Profiles. The migration also backfills only Auth users without an existing Profile, preserving existing profile data and roles.
+
+The Phase 3 migration `20260716000000_profile_experience.sql` adds nullable `avatar_url`, `city`, `province`, and `bio` fields without changing existing Profiles or business ownership. It also adds self-only Profile select/update policies. Profile avatar upload is deferred because no dedicated Storage bucket or object policy is configured in the repository.
 
 No other trigger definitions are tracked; inventory any additional live triggers before changing data access.
 

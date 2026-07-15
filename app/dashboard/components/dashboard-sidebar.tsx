@@ -57,12 +57,12 @@ const businessNavigation = [
 },
   {
     label: "Profile",
-    href: "/account",
+    href: "/profile",
     icon: CircleUserRound,
   },
   {
     label: "Settings",
-    href: "/account/settings",
+    href: "/settings",
     icon: Settings,
   },
 ];
@@ -70,12 +70,12 @@ const businessNavigation = [
 const accountNavigation = [
   {
     label: "Profile",
-    href: "/account",
+    href: "/profile",
     icon: CircleUserRound,
   },
   {
     label: "Settings",
-    href: "/account/settings",
+    href: "/settings",
     icon: Settings,
   },
   {
