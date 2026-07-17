@@ -22,7 +22,7 @@ flowchart TD
   Storefront --> TrackItem["/api/track-item"]
 ```
 
-The dashboard has routes for business, categories, items, links, appearance, analytics, and admin. `/profile` and `/settings` are authenticated Profile routes; `/account` and `/account/settings` remain compatibility redirects. `/dashboard` preserves the owner dashboard and redirects authenticated users without a business to `/account`, which continues to `/profile`.
+The dashboard has routes for business, categories, items, links, appearance, analytics, and admin. `/profile`, `/settings`, and `/favorites` are authenticated Profile routes; `/account` and `/account/settings` remain compatibility redirects. `/dashboard` preserves the owner dashboard and redirects authenticated users without a business to `/account`, which continues to `/profile`.
 
 ### Target Architecture
 
@@ -115,7 +115,7 @@ flowchart LR
 
 ### Target Architecture
 
-Public storefronts remain the business-presence foundation. Discovery will become municipality-first and can later surface consumer engagement (favorites, reviews, offers, follows) when those capabilities are implemented and appropriately moderated.
+Public storefronts remain the business-presence foundation. The home page, `/discover`, and `/{slug}` now use one shared favorite control: authenticated users can toggle their saved business; guests are sent to login. The authenticated `/favorites` route lists only the current Profile's saved businesses. Discovery will become municipality-first and can later surface reviews, offers, and follows when those capabilities are implemented and appropriately moderated.
 
 ### Migration Strategy
 
@@ -125,7 +125,7 @@ Preserve the `/{slug}` route and active/visible safeguards. Add geographic data 
 
 ### Current Implementation
 
-The dashboard uses `app/dashboard/layout.tsx` with a desktop sidebar and client-side mobile drawer. Overview presents setup progress. Management screens use browser Supabase clients for interactive CRUD; analytics aggregates business visits, link clicks, and item clicks. The service-role client is used server-side for analytics inserts and the admin-validated business-status update. Owner navigation retains business management and adds Profile/Settings links; non-owner account navigation shows Profile, Settings, and Register Business only.
+The dashboard uses `app/dashboard/layout.tsx` with a desktop sidebar and client-side mobile drawer. Overview presents setup progress. Management screens use browser Supabase clients for interactive CRUD; analytics aggregates business visits, link clicks, and item clicks. The service-role client is used server-side for analytics inserts and the admin-validated business-status update. Owner navigation retains business management and adds Profile, Favorites, and Settings links; non-owner account navigation shows Profile, Favorites, Settings, and Register Business.
 
 ```mermaid
 flowchart TD
@@ -148,7 +148,7 @@ Introduce selected-business and membership context only when the membership mode
 
 ### Current Implementation
 
-`lib/supabase/server.ts` creates a cookie-aware server client; `client.ts` creates a browser client; `middleware.ts` refreshes sessions. `admin.ts` holds a service-role client for server-only use. `lib/upload.ts` validates JPEG/PNG/WebP images up to 5 MB, uploads to a caller-specified Storage bucket, and returns a public URL.
+`lib/supabase/server.ts` creates a cookie-aware server client; `client.ts` creates a browser client; `middleware.ts` refreshes sessions. `admin.ts` holds a service-role client for server-only use. `lib/upload.ts` validates JPEG/PNG/WebP images up to 5 MB, uploads to a caller-specified Storage bucket, and returns a public URL. Favorites use server-only reads and Server Actions in `lib/services/favorites/`; the client-side button owns only interaction state and redirects guests to login.
 
 The repository has an empty `schema.sql` and a tracked Phase 1 profile-foundation migration. Live Supabase remains the schema authority until that migration is applied. Application code assumes RLS protects normal owner writes, but policies are not yet versioned here.
 

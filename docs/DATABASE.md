@@ -11,6 +11,7 @@ The live Supabase project remains the operational schema authority until migrati
 | Table | Purpose | Fields observed in application code |
 | --- | --- | --- |
 | `profiles` | Extends Supabase Auth users with app identity and role. Phase 1 provisions one row for each Auth user through an Auth trigger; Phase 3 adds Profile experience fields. | `id`, `email`, `full_name`, `role`, `avatar_url`, `city`, `province`, `bio` |
+| `favorites` | A Profile's saved businesses. Introduced by Version 1.5B Phase 1. | `id`, `profile_id`, `business_id`, `created_at` |
 | `businesses` | Owner-created public business/storefront profile. | `id`, `owner_id`, `slug`, `name`, `description`, `industry`, `city`, `province`, `logo_url`, `cover_url`, `opening_hours`, `is_active`, `created_at`, `plan` |
 | `categories` | Groups a business's items. | `id`, `business_id`, `name`, `sort_order`, `is_visible` |
 | `items` | Products or services shown on a storefront. | `id`, `business_id`, `category_id`, `name`, `description`, `price`, `image_url`, `sort_order`, `is_visible` |
@@ -39,11 +40,13 @@ businesses  1 ── * item_clicks             (item_clicks.business_id)
 items       1 ── * item_clicks             (item_clicks.item_id)
 ```
 
-These are logical relationships inferred from field names and queries. Physical foreign-key existence, targets, and delete behavior are unverified in source control.
+The Version 1.5B favorites migration establishes physical foreign keys from `favorites.profile_id` to `profiles.id` and from `favorites.business_id` to `businesses.id`. Both use `ON DELETE CASCADE`; the table permits one row per `(profile_id, business_id)` pair. Other relationships remain logical inferences from field names and queries.
 
 ## RLS
 
 Normal clients assume RLS protects owner-managed data. Public pages read active businesses, visible items, and visible links with an anonymous/session client. Dashboard managers make client-side writes to owned records. The service-role client is limited to server-side analytics inserts and an admin-validated status update.
+
+The Version 1.5B favorites migration enables RLS on `favorites`. An authenticated Profile may select, insert, and delete only rows whose `profile_id` equals `auth.uid()`. There is deliberately no update policy: a favorite is either present or removed.
 
 Actual RLS enablement and policies are not present in the repository and must be checked in Supabase before changing data access. A UI filter such as `is_active` or `is_visible` is not itself a complete security policy.
 
@@ -57,7 +60,7 @@ No other trigger definitions are tracked; inventory any additional live triggers
 
 ## Indexes
 
-No index definitions are tracked. Current queries make these likely indexing candidates, but this is not evidence they exist:
+The Version 1.5B favorites migration creates `favorites_profile_id_created_at_idx` for a Profile's newest-first saved list and `favorites_business_id_idx` for business-side lookup. No other index definitions are tracked. Current queries make these likely indexing candidates, but this is not evidence they exist:
 
 - `businesses.slug`, `businesses.owner_id`, `businesses.is_active`, `businesses.created_at`
 - `categories.business_id` and `(business_id, sort_order)`
@@ -72,7 +75,7 @@ These tables are not implemented and require migrations, ownership rules, modera
 | Table | Purpose |
 | --- | --- |
 | `profiles` | Already exists. It may later receive account preferences or verification attributes; do not create a duplicate profile table. |
-| `favorites` | A consumer's saved businesses/items, requiring consumer accounts and uniqueness rules. |
+| `favorites` | Implemented for a Profile to save businesses. Saving items is not implemented. |
 | `reviews` | Moderated consumer feedback for a business, with author identity, publication state, and abuse controls. |
 | `offers` | Time-bounded promotions published by a business. |
 | `offer_claims` | Consumer claim/redemption records for offers, with fraud and redemption rules. |
@@ -111,7 +114,7 @@ erDiagram
 
 ### Favorites
 
-`favorites` is planned for profiles to save businesses and, if product requirements confirm it, items. It requires consumer identity, uniqueness rules, and profile-based RLS.
+`favorites` is implemented for Profiles to save businesses. The versioned migration creates profile/business foreign keys, cascading deletion behavior, a one-favorite-per-Profile/business constraint, self-only RLS policies, and read-list indexes. Favorites do not include items, collections, analytics, or notifications.
 
 ### Reviews
 

@@ -10,6 +10,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { FavoriteButton } from "@/components/favorites/favorite-button";
 
 type Business = {
   id: string;
@@ -34,10 +35,14 @@ type Business = {
 
 type Props = {
   business: Business;
+  isAuthenticated?: boolean;
+  isFavorite?: boolean;
 };
 
 export function BusinessCard({
   business,
+  isAuthenticated = false,
+  isFavorite = false,
 }: Props) {
   const rating = business.rating ?? null;
   const status =
@@ -80,6 +85,14 @@ export function BusinessCard({
               Verified
             </Badge>
           )}
+        </div>
+
+        <div className="absolute right-4 top-4">
+          <FavoriteButton
+            businessId={business.id}
+            isAuthenticated={isAuthenticated}
+            initialIsFavorite={isFavorite}
+          />
         </div>
 
         <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">

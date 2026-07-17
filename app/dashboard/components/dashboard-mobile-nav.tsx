@@ -17,6 +17,7 @@ import {
   Settings,
   ChartBar,
   CircleUserRound,
+  Heart,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -67,6 +68,11 @@ const businessNavigation = [
     icon: CircleUserRound,
   },
   {
+    label: "Favorites",
+    href: "/favorites",
+    icon: Heart,
+  },
+  {
     label: "Settings",
     href: "/settings",
     icon: Settings,
@@ -78,6 +84,11 @@ const accountNavigation = [
     label: "Profile",
     href: "/profile",
     icon: CircleUserRound,
+  },
+  {
+    label: "Favorites",
+    href: "/favorites",
+    icon: Heart,
   },
   {
     label: "Settings",

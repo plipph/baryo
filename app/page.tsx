@@ -6,6 +6,7 @@ import { HeroBanner } from "@/components/hero/hero-banner";
 import { CategoryGrid } from "@/components/categories/category-grid";
 import { BusinessCard } from "@/components/business/business-card";
 import { Section } from "@/components/ui/section";
+import { getProfileFavoriteIds } from "@/lib/services/favorites/get-profile-favorite-ids";
 import Link from "next/link";
 import {
   CalendarDays,
@@ -19,6 +20,8 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const supabase = await createClient();
+  const favoriteContext = await getProfileFavoriteIds();
+  const favoriteBusinessIds = new Set(favoriteContext.businessIds);
 
   const { data: businesses } = await supabase
     .from("businesses")
@@ -47,6 +50,8 @@ export default async function HomePage() {
                 <BusinessCard
                   key={business.id}
                   business={business}
+                  isAuthenticated={favoriteContext.isAuthenticated}
+                  isFavorite={favoriteBusinessIds.has(business.id)}
                 />
               ))}
           </div>
@@ -61,6 +66,8 @@ export default async function HomePage() {
               <BusinessCard
                 key={business.id}
                 business={business}
+                isAuthenticated={favoriteContext.isAuthenticated}
+                isFavorite={favoriteBusinessIds.has(business.id)}
               />
             ))}
           </div>
@@ -135,7 +142,12 @@ export default async function HomePage() {
 
             <div className="grid gap-6 md:grid-cols-2">
               {(businesses ?? []).slice(3, 7).map((business) => (
-                <BusinessCard key={business.id} business={business} />
+                <BusinessCard
+                  key={business.id}
+                  business={business}
+                  isAuthenticated={favoriteContext.isAuthenticated}
+                  isFavorite={favoriteBusinessIds.has(business.id)}
+                />
               ))}
             </div>
           </div>

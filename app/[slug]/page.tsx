@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { logBusinessVisit } from "@/lib/analytics/log-visit";
 import { LinkIcon } from "@/components/link-icon";
+import { FavoriteButton } from "@/components/favorites/favorite-button";
+import { isFavorite } from "@/lib/services/favorites/is-favorite";
 
 import { PublicStorefront } from "./public-storefront";
 
@@ -107,6 +109,7 @@ export default async function PublicBusinessPage({
   if (!business) {
     notFound();
   }
+  const favoriteContext = await isFavorite(business.id);
   await logBusinessVisit( business.id );
 
   /* CATEGORIES */
@@ -286,6 +289,15 @@ export default async function PublicBusinessPage({
                     {business.description}
                   </p>
                 )}
+
+                <div className="mt-6">
+                  <FavoriteButton
+                    businessId={business.id}
+                    isAuthenticated={favoriteContext.isAuthenticated}
+                    initialIsFavorite={favoriteContext.isFavorite}
+                    className="border border-white/40 bg-white/15 text-white shadow-none hover:bg-white/25"
+                  />
+                </div>
 
                 {/* BUTTONS */}
                 {primaryLinks.length > 0 && (

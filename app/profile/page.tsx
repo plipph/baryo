@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Building2, Compass } from "lucide-react";
+import { Building2, Compass, Heart } from "lucide-react";
 
 import { ProfileAvatar } from "@/components/profile/profile-avatar";
 import { ProfileForm } from "@/components/profile/profile-form";
@@ -49,6 +49,28 @@ export default async function ProfilePage() {
         </header>
 
         <ProfileForm profile={profile} />
+
+        <section className="mt-8 flex flex-col gap-4 rounded-[2rem] bg-white p-6 shadow-[0_18px_50px_-34px_rgba(17,24,39,0.45)] sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FDECEC] text-[#DC2626]">
+              <Heart className="h-6 w-6 fill-current" />
+            </div>
+            <div>
+              <h2 className="text-xl font-black text-[#111827]">
+                Favorite Businesses
+              </h2>
+              <p className="mt-1 text-sm text-[#6B7280]">
+                View the local businesses you have saved.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/favorites"
+            className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-[#14532D] px-5 py-3 text-sm font-semibold text-white"
+          >
+            View Favorites
+          </Link>
+        </section>
 
         {!business && (
           <section className="mt-8 rounded-[2rem] bg-[#14532D] p-7 text-white shadow-[0_30px_80px_-42px_rgba(20,83,45,0.95)]">

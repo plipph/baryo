@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { BusinessCard } from "@/components/business/business-card";
 import { PublicLayout } from "@/components/layout/public-layout";
 import { DiscoverSearch } from "./components/discover-search";
+import { getProfileFavoriteIds } from "@/lib/services/favorites/get-profile-favorite-ids";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,8 @@ type Business = {
 export default async function DiscoverPage({ searchParams }: DiscoverPageProps) {
   const { search } = await searchParams;
   const supabase = await createClient();
+  const favoriteContext = await getProfileFavoriteIds();
+  const favoriteBusinessIds = new Set(favoriteContext.businessIds);
 
   const query = supabase
     .from("businesses")
@@ -82,7 +85,12 @@ export default async function DiscoverPage({ searchParams }: DiscoverPageProps) 
           ) : (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {((businesses ?? []) as Business[]).map((business) => (
-                <BusinessCard key={business.id} business={business} />
+                <BusinessCard
+                  key={business.id}
+                  business={business}
+                  isAuthenticated={favoriteContext.isAuthenticated}
+                  isFavorite={favoriteBusinessIds.has(business.id)}
+                />
               ))}
             </div>
           )}
