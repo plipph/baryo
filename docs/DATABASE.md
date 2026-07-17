@@ -12,6 +12,7 @@ The live Supabase project remains the operational schema authority until migrati
 | --- | --- | --- |
 | `profiles` | Extends Supabase Auth users with app identity and role. Phase 1 provisions one row for each Auth user through an Auth trigger; Phase 3 adds Profile experience fields. | `id`, `email`, `full_name`, `role`, `avatar_url`, `city`, `province`, `bio` |
 | `favorites` | A Profile's saved businesses. Introduced by Version 1.5B Phase 1. | `id`, `profile_id`, `business_id`, `created_at` |
+| `reviews` | A Profile's single, public 1–5-star review of a business. Introduced by Version 1.5B Phase 2. | `id`, `profile_id`, `business_id`, `rating`, `review`, `created_at`, `updated_at` |
 | `businesses` | Owner-created public business/storefront profile. | `id`, `owner_id`, `slug`, `name`, `description`, `industry`, `city`, `province`, `logo_url`, `cover_url`, `opening_hours`, `is_active`, `created_at`, `plan` |
 | `categories` | Groups a business's items. | `id`, `business_id`, `name`, `sort_order`, `is_visible` |
 | `items` | Products or services shown on a storefront. | `id`, `business_id`, `category_id`, `name`, `description`, `price`, `image_url`, `sort_order`, `is_visible` |
@@ -42,11 +43,15 @@ items       1 ── * item_clicks             (item_clicks.item_id)
 
 The Version 1.5B favorites migration establishes physical foreign keys from `favorites.profile_id` to `profiles.id` and from `favorites.business_id` to `businesses.id`. Both use `ON DELETE CASCADE`; the table permits one row per `(profile_id, business_id)` pair. Other relationships remain logical inferences from field names and queries.
 
+The Version 1.5B reviews migration establishes the same cascading Profile and business foreign-key behavior for `reviews`, with one review per `(profile_id, business_id)` pair. `rating` is constrained to integers from 1 through 5 and the review text cannot be blank.
+
 ## RLS
 
 Normal clients assume RLS protects owner-managed data. Public pages read active businesses, visible items, and visible links with an anonymous/session client. Dashboard managers make client-side writes to owned records. The service-role client is limited to server-side analytics inserts and an admin-validated status update.
 
 The Version 1.5B favorites migration enables RLS on `favorites`. An authenticated Profile may select, insert, and delete only rows whose `profile_id` equals `auth.uid()`. There is deliberately no update policy: a favorite is either present or removed.
+
+The Version 1.5B reviews migration enables RLS on `reviews`. Anyone may read reviews. Authenticated Profiles may create, update, and delete only their own review rows. The insert/update policy also rejects a review where the authenticated Profile owns the target business. Server-side review services repeat this ownership validation before every mutation.
 
 Actual RLS enablement and policies are not present in the repository and must be checked in Supabase before changing data access. A UI filter such as `is_active` or `is_visible` is not itself a complete security policy.
 
@@ -56,11 +61,15 @@ The Phase 1 migration `20260715000000_profile_foundation.sql` tracks `public.han
 
 The Phase 3 migration `20260716000000_profile_experience.sql` adds nullable `avatar_url`, `city`, `province`, and `bio` fields without changing existing Profiles or business ownership. It also adds self-only Profile select/update policies. Profile avatar upload is deferred because no dedicated Storage bucket or object policy is configured in the repository.
 
+The Version 1.5B reviews migration `20260717010000_reviews.sql` includes `set_review_updated_at()` and the `reviews_set_updated_at` trigger, which advances `updated_at` on every review update.
+
 No other trigger definitions are tracked; inventory any additional live triggers before changing data access.
 
 ## Indexes
 
 The Version 1.5B favorites migration creates `favorites_profile_id_created_at_idx` for a Profile's newest-first saved list and `favorites_business_id_idx` for business-side lookup. No other index definitions are tracked. Current queries make these likely indexing candidates, but this is not evidence they exist:
+
+The reviews migration creates `reviews_business_id_created_at_idx` for newest-first public storefront review lists. The unique review constraint also indexes `(profile_id, business_id)` for a Profile's current review lookup.
 
 - `businesses.slug`, `businesses.owner_id`, `businesses.is_active`, `businesses.created_at`
 - `categories.business_id` and `(business_id, sort_order)`
@@ -76,7 +85,7 @@ These tables are not implemented and require migrations, ownership rules, modera
 | --- | --- |
 | `profiles` | Already exists. It may later receive account preferences or verification attributes; do not create a duplicate profile table. |
 | `favorites` | Implemented for a Profile to save businesses. Saving items is not implemented. |
-| `reviews` | Moderated consumer feedback for a business, with author identity, publication state, and abuse controls. |
+| `reviews` | Implemented as public Profile-to-business reviews with one rating/text review per business. Moderation, replies, likes, reports, and aggregate ratings are not implemented. |
 | `offers` | Time-bounded promotions published by a business. |
 | `offer_claims` | Consumer claim/redemption records for offers, with fraud and redemption rules. |
 | `notifications` | In-app notices for owners/consumers, with recipient, delivery/read state, and event source. |
@@ -118,7 +127,7 @@ erDiagram
 
 ### Reviews
 
-`reviews` is planned for profile-authored feedback on businesses. It requires publication/moderation state, author permissions, and abuse-management policies before implementation.
+`reviews` is implemented for profile-authored feedback on businesses. Reviews are public and have no moderation state in this phase. The schema and services enforce a single 1–5-star, nonblank review per Profile/business and prohibit owners from reviewing their own business. Moderation, reporting, replies, likes, rating aggregates, and reviewer verification remain future work.
 
 ### Offer Claims
 

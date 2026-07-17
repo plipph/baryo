@@ -115,7 +115,7 @@ flowchart LR
 
 ### Target Architecture
 
-Public storefronts remain the business-presence foundation. The home page, `/discover`, and `/{slug}` now use one shared favorite control: authenticated users can toggle their saved business; guests are sent to login. The authenticated `/favorites` route lists only the current Profile's saved businesses. Discovery will become municipality-first and can later surface reviews, offers, and follows when those capabilities are implemented and appropriately moderated.
+Public storefronts remain the business-presence foundation. The home page, `/discover`, and `/{slug}` use one shared favorite control: authenticated users can toggle their saved business; guests are sent to login. The authenticated `/favorites` route lists only the current Profile's saved businesses. `/{slug}` also renders public reviews with a route-local form for the authenticated Profile's one review. Review services validate the Profile and reject self-reviews by the business owner; rating aggregation, ranking, moderation, and public profile presentation are not implemented. Discovery will become municipality-first and can later surface offers and follows when those capabilities are implemented and appropriately moderated.
 
 ### Migration Strategy
 
@@ -148,7 +148,7 @@ Introduce selected-business and membership context only when the membership mode
 
 ### Current Implementation
 
-`lib/supabase/server.ts` creates a cookie-aware server client; `client.ts` creates a browser client; `middleware.ts` refreshes sessions. `admin.ts` holds a service-role client for server-only use. `lib/upload.ts` validates JPEG/PNG/WebP images up to 5 MB, uploads to a caller-specified Storage bucket, and returns a public URL. Favorites use server-only reads and Server Actions in `lib/services/favorites/`; the client-side button owns only interaction state and redirects guests to login.
+`lib/supabase/server.ts` creates a cookie-aware server client; `client.ts` creates a browser client; `middleware.ts` refreshes sessions. `admin.ts` holds a service-role client for server-only use. `lib/upload.ts` validates JPEG/PNG/WebP images up to 5 MB, uploads to a caller-specified Storage bucket, and returns a public URL. Favorites use server-only reads and Server Actions in `lib/services/favorites/`; the client-side button owns only interaction state and redirects guests to login. Reviews use server-only queries and Server Actions in `lib/services/reviews/`; `app/[slug]/reviews-section.tsx` is a route-local Client Component for the star selector, form state, and edit/delete controls.
 
 The repository has an empty `schema.sql` and a tracked Phase 1 profile-foundation migration. Live Supabase remains the schema authority until that migration is applied. Application code assumes RLS protects normal owner writes, but policies are not yet versioned here.
 

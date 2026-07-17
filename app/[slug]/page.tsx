@@ -8,8 +8,11 @@ import { logBusinessVisit } from "@/lib/analytics/log-visit";
 import { LinkIcon } from "@/components/link-icon";
 import { FavoriteButton } from "@/components/favorites/favorite-button";
 import { isFavorite } from "@/lib/services/favorites/is-favorite";
+import { getBusinessReviews } from "@/lib/services/reviews/get-business-reviews";
+import { getProfileReview } from "@/lib/services/reviews/get-profile-review";
 
 import { PublicStorefront } from "./public-storefront";
+import { ReviewsSection } from "./reviews-section";
 
 import {
   MapPin,
@@ -109,7 +112,11 @@ export default async function PublicBusinessPage({
   if (!business) {
     notFound();
   }
-  const favoriteContext = await isFavorite(business.id);
+  const [favoriteContext, reviews, profileReviewContext] = await Promise.all([
+    isFavorite(business.id),
+    getBusinessReviews(business.id),
+    getProfileReview(business.id),
+  ]);
   await logBusinessVisit( business.id );
 
   /* CATEGORIES */
@@ -341,6 +348,12 @@ export default async function PublicBusinessPage({
           items={items ?? []}
           links={links ?? []}
           appearance={appearance}
+        />
+        <ReviewsSection
+          businessId={business.id}
+          reviews={reviews}
+          currentReview={profileReviewContext.review}
+          isAuthenticated={profileReviewContext.isAuthenticated}
         />
       </section>
     </main>
